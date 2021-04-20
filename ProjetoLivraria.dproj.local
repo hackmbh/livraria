@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/04/13 00:43:31.000.653,=C:\Users\Solaris\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/04/13 00:52:50.000.652,C:\Users\Solaris\Documents\RAD Studio\Projects\Unit1.dfm=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Inicio.dfm</Transaction>
+    <Transaction>2021/04/13 00:52:50.000.652,C:\Users\Solaris\Documents\RAD Studio\Projects\Unit1.pas=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Inicio.pas</Transaction>
+    <Transaction>2021/04/13 00:53:08.000.081,C:\Users\Solaris\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\ProjetoLivraria.dproj</Transaction>
+    <Transaction>2021/04/13 00:56:37.000.384,=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit2.pas</Transaction>
+    <Transaction>2021/04/13 00:56:56.000.489,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit2.dfm=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Usuarios.dfm</Transaction>
+    <Transaction>2021/04/13 00:56:56.000.489,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit2.pas=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Usuarios.pas</Transaction>
+    <Transaction>2021/04/13 12:24:52.000.772,=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit3.pas</Transaction>
+    <Transaction>2021/04/13 12:25:16.000.615,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit3.pas=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Editora.pas</Transaction>
+    <Transaction>2021/04/13 12:25:16.000.615,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit3.dfm=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Editora.dfm</Transaction>
+    <Transaction>2021/04/13 12:51:48.000.051,=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit4.pas</Transaction>
+    <Transaction>2021/04/13 12:53:56.000.099,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit4.dfm=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\FormaPagamento.dfm</Transaction>
+    <Transaction>2021/04/13 12:53:56.000.099,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit4.pas=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\FormaPagamento.pas</Transaction>
+    <Transaction>2021/04/13 12:54:02.000.652,=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit5.pas</Transaction>
+    <Transaction>2021/04/13 13:01:48.000.362,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit5.pas=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Livro.pas</Transaction>
+    <Transaction>2021/04/13 13:01:48.000.362,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit5.dfm=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Livro.dfm</Transaction>
+    <Transaction>2021/04/13 13:01:53.000.167,=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit6.pas</Transaction>
+    <Transaction>2021/04/13 14:14:40.000.737,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit6.pas=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\ClienteFornecedor.pas</Transaction>
+    <Transaction>2021/04/13 14:14:40.000.737,C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\Unit6.dfm=C:\Users\Solaris\Desktop\Second Desktop\Marcelon\_Delphi\ProjetoLivraria\ClienteFornecedor.dfm</Transaction>
+    <Transaction>2021/04/14 11:15:50.000.967,=C:\ProjetoLivraria\ProjetoLivraria\Unit1.pas</Transaction>
+    <Transaction>2021/04/14 14:06:28.000.838,=C:\ProjetoLivraria\ProjetoLivraria\Unit1.pas</Transaction>
+    <Transaction>2021/04/14 14:07:54.000.873,C:\ProjetoLivraria\ProjetoLivraria\Unit1.dfm=C:\ProjetoLivraria\ProjetoLivraria\DataModLivraria.dfm</Transaction>
+    <Transaction>2021/04/14 14:07:54.000.873,C:\ProjetoLivraria\ProjetoLivraria\Unit1.pas=C:\ProjetoLivraria\ProjetoLivraria\DataModLivraria.pas</Transaction>
+  </Transactions>
+</BorlandProject>
