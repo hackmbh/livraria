@@ -2,7 +2,7 @@ object frmCliFor: TfrmCliFor
   Left = 0
   Top = 0
   Caption = 'Cliente e Fornecedor'
-  ClientHeight = 441
+  ClientHeight = 528
   ClientWidth = 720
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,6 +12,8 @@ object frmCliFor: TfrmCliFor
   Font.Style = []
   OldCreateOrder = False
   Position = poOwnerFormCenter
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -51,7 +53,7 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 97
     EditLabel.Height = 13
     EditLabel.Caption = 'Nome / Raz'#227'o Social'
-    TabOrder = 0
+    TabOrder = 1
   end
   object editCpfCnpj: TLabeledEdit
     Left = 463
@@ -61,7 +63,7 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 54
     EditLabel.Height = 13
     EditLabel.Caption = 'CPF / CNPJ'
-    TabOrder = 1
+    TabOrder = 2
   end
   object editEndereco: TLabeledEdit
     Left = 70
@@ -71,7 +73,7 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 45
     EditLabel.Height = 13
     EditLabel.Caption = 'Endere'#231'o'
-    TabOrder = 2
+    TabOrder = 5
   end
   object editTelefone: TLabeledEdit
     Left = 8
@@ -81,7 +83,7 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 42
     EditLabel.Height = 13
     EditLabel.Caption = 'Telefone'
-    TabOrder = 3
+    TabOrder = 8
   end
   object editCep: TLabeledEdit
     Left = 616
@@ -91,7 +93,7 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 19
     EditLabel.Height = 13
     EditLabel.Caption = 'CEP'
-    TabOrder = 4
+    TabOrder = 7
   end
   object editDataNasc: TLabeledEdit
     Left = 138
@@ -101,7 +103,7 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 81
     EditLabel.Height = 13
     EditLabel.Caption = 'Data Nascimento'
-    TabOrder = 5
+    TabOrder = 9
   end
   object editProfissao: TLabeledEdit
     Left = 394
@@ -111,14 +113,14 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 44
     EditLabel.Height = 13
     EditLabel.Caption = 'Profiss'#227'o'
-    TabOrder = 6
+    TabOrder = 11
   end
   object comboStatus: TComboBox
     Left = 602
     Top = 23
     Width = 111
     Height = 21
-    TabOrder = 7
+    TabOrder = 3
     Text = 'Definir status'
     Items.Strings = (
       '0'
@@ -133,14 +135,14 @@ object frmCliFor: TfrmCliFor
     Items.Strings = (
       'PF'
       'PJ')
-    TabOrder = 8
+    TabOrder = 4
   end
   object comboEstadoCivil: TComboBox
     Left = 267
     Top = 111
     Width = 121
     Height = 21
-    TabOrder = 9
+    TabOrder = 10
     Text = 'Estado Civil'
     Items.Strings = (
       'Solteiro(a)'
@@ -154,7 +156,7 @@ object frmCliFor: TfrmCliFor
     Width = 75
     Height = 25
     Caption = 'Salvar'
-    TabOrder = 10
+    TabOrder = 13
     OnClick = btnSalvarClick
   end
   object btnAtualizar: TButton
@@ -163,7 +165,7 @@ object frmCliFor: TfrmCliFor
     Width = 75
     Height = 25
     Caption = 'Atualizar'
-    TabOrder = 11
+    TabOrder = 14
     OnClick = btnAtualizarClick
   end
   object btnExcluir: TButton
@@ -172,7 +174,7 @@ object frmCliFor: TfrmCliFor
     Width = 75
     Height = 25
     Caption = 'Excluir'
-    TabOrder = 12
+    TabOrder = 15
   end
   object btnCancelar: TButton
     Left = 556
@@ -180,7 +182,7 @@ object frmCliFor: TfrmCliFor
     Width = 75
     Height = 25
     Caption = 'Cancelar'
-    TabOrder = 13
+    TabOrder = 16
   end
   object dbGridCliFor: TDBGrid
     Left = 8
@@ -188,12 +190,27 @@ object frmCliFor: TfrmCliFor
     Width = 704
     Height = 256
     DataSource = DataSource1
-    TabOrder = 14
+    Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    TabOrder = 17
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnCellClick = dbGridCliForCellClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ID'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Title.Caption = 'Nome'
+        Width = 300
+        Visible = True
+      end>
   end
   object btnListar: TButton
     Left = 637
@@ -201,7 +218,7 @@ object frmCliFor: TfrmCliFor
     Width = 75
     Height = 25
     Caption = 'Listar'
-    TabOrder = 15
+    TabOrder = 18
     OnClick = btnListarClick
   end
   object editID: TLabeledEdit
@@ -212,14 +229,14 @@ object frmCliFor: TfrmCliFor
     EditLabel.Width = 11
     EditLabel.Height = 13
     EditLabel.Caption = 'ID'
-    TabOrder = 16
+    TabOrder = 0
   end
   object comboTipoCliFor: TComboBox
     Left = 407
     Top = 66
     Width = 203
     Height = 21
-    TabOrder = 17
+    TabOrder = 6
     Text = '1-Cliente, 2-Fornecedor ou 3-Ambos'
     Items.Strings = (
       '1'
@@ -231,7 +248,7 @@ object frmCliFor: TfrmCliFor
     Top = 111
     Width = 124
     Height = 21
-    TabOrder = 18
+    TabOrder = 12
     Text = 'Escolha o g'#234'nero'
     Items.Strings = (
       'Feminino'
@@ -239,6 +256,8 @@ object frmCliFor: TfrmCliFor
   end
   object ADQuery1: TADQuery
     Connection = DataModuleLivraria.ADConnection1
+    SQL.Strings = (
+      'select * from tbclifor')
     Left = 656
     Top = 456
   end

@@ -40,6 +40,9 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
+    procedure dbGridCliForCellClick(Column: TColumn);
+    procedure FormCreate(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
     //procedure dbGridCliForCellClick(Column: TColumn);
   private
     { Private declarations }
@@ -132,6 +135,11 @@ begin
    end;
 end;
 
+procedure TfrmCliFor.dbGridCliForCellClick(Column: TColumn);
+begin
+
+end;
+
 {
 procedure TfrmCliFor.dbGridCliForCellClick(Column: TColumn);
 begin
@@ -159,6 +167,19 @@ begin
    ADQuery1.SQL.Clear;
    ADQuery1.SQL.Add('SELECT * FROM TBCLIFOR');
    ADQuery1.Open;
+end;
+
+procedure TfrmCliFor.FormCreate(Sender: TObject);
+begin
+   KeyPreview:=true;
+end;
+
+procedure TfrmCliFor.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+   if key=#13 then begin
+      SelectNext(ActiveControl as TWinControl,True,True);
+      key:=#0;
+   end;
 end;
 
 end.
