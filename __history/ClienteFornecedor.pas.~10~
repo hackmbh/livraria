@@ -1,0 +1,91 @@
+unit ClienteFornecedor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uADStanIntf,
+  uADStanOption, uADStanParam, uADStanError, uADDatSManager, uADPhysIntf,
+  uADDAptIntf, uADStanAsync, uADDAptManager, Data.DB, uADCompDataSet,
+  uADCompClient, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmCliFor = class(TForm)
+    editNomeRazao: TLabeledEdit;
+    editCpfCnpj: TLabeledEdit;
+    editEndereco: TLabeledEdit;
+    editTelefone: TLabeledEdit;
+    editCep: TLabeledEdit;
+    radioGenero: TRadioGroup;
+    editDataNasc: TLabeledEdit;
+    editProfissao: TLabeledEdit;
+    comboStatus: TComboBox;
+    radioTipoPessoa: TRadioGroup;
+    comboEstadoCivil: TComboBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    btnSalvar: TButton;
+    btnAtualizar: TButton;
+    btnExcluir: TButton;
+    btnCancelar: TButton;
+    dbGridCliFor: TDBGrid;
+    btnListar: TButton;
+    ADQuery1: TADQuery;
+    DataSource1: TDataSource;
+    editID: TLabeledEdit;
+    comboTipoCliFor: TComboBox;
+    Label3: TLabel;
+    procedure FormShow(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCliFor: TfrmCliFor;
+
+implementation
+
+{$R *.dfm}
+
+//carrega os dados ao mostrar o formulário
+procedure TfrmCliFor.btnSalvarClick(Sender: TObject);
+begin
+   if editID.Text <> '' then begin
+      ShowMessage('O campo ID deve estar em branco para realizar um novo cadastro!');
+      exit;
+   end;
+   if editNomeRazao.Text <> '' then begin
+      ADQuery1.Close;
+      ADQuery1.SQL.Clear;
+      ADQuery1.SQL.Add('INSERT INTO TBCLIFOR (NOME, CPF_CNPJ, ENDERECO, TELEFONE, CEP, SEXO, DATA_NASC, PROFISSAO, ESTADO_CIVIL, STATUS, TIPO_PESSOA, TIPO_CLI_FOR)');
+      ADQuery1.SQL.Add(' VALUES (:NOME, :CPF_CNPJ, :ENDERECO, :TELEFONE, :CEP, :SEXO, :DATA_NASC, :PROFISSAO, :ESTADO_CIVIL, :STATUS, :TIPO_PESSOA, :TIPO_CLI_FOR)');
+      ADQuery1.ParamByName('NOME').AsString := editNomeRazao.Text;
+      ADQuery1.ParamByName('CPF_CNPJ').AsString := editCpfCnpj.Text;
+      ADQuery1.ParamByName('ENDERECO').AsString := editEndereco.Text;
+      ADQuery1.ParamByName('TELEFONE').AsString := editTelefone.Text;
+      ADQuery1.ParamByName('CEP').AsString := editCep.Text;
+      //ADQuery1.ParamByName('SEXO').AsString := radioGenero.Text;
+      ADQuery1.ParamByName('DATA_NASC').AsString := editDataNasc.Text;
+      ADQuery1.ParamByName('PROFISSAO').AsString := editProfissao.Text;
+      ADQuery1.ParamByName('ESTADO_CIVIL').AsString := comboEstadoCivil.Text;
+      ADQuery1.ParamByName('STATUS').AsInteger := StrToIntDef(comboStatus.Text, 0);
+      ADQuery1.ParamByName('TIPO_PESSOA').AsString := radioTipoPessoa.Text;
+      ADQuery1.ParamByName('TIPO_CLI_FOR').AsInteger := StrToIntDef(comboStatus.Text, 0);
+      ADQuery1.ParamByName('STATUS').AsInteger := StrToIntDef(comboStatus.Text, 0);
+      ADQuery1.ExecSQL;
+      //btnListarClick(Sender);
+   end;
+end;
+
+procedure TfrmCliFor.FormShow(Sender: TObject);
+begin
+   ADQuery1.Close;
+   ADQuery1.SQL.Clear;
+   ADQuery1.SQL.Add('SELECT * FROM TBCLIFOR');
+   ADQuery1.Open;
+end;
+
+end.

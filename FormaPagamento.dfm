@@ -10,8 +10,10 @@ object frmFormPagto: TfrmFormPagto
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsMDIChild
   OldCreateOrder = False
   Position = poOwnerFormCenter
+  Visible = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13

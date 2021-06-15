@@ -10,8 +10,10 @@ object frmEditora: TfrmEditora
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsMDIChild
   OldCreateOrder = False
   Position = poOwnerFormCenter
+  Visible = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -29,7 +31,7 @@ object frmEditora: TfrmEditora
     Left = 8
     Top = 64
     Width = 345
-    Height = 49
+    Height = 21
     EditLabel.Width = 46
     EditLabel.Height = 13
     EditLabel.Caption = 'Descri'#231#227'o'

@@ -1,0 +1,59 @@
+unit Usuarios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uADStanIntf,
+  uADStanOption, uADStanParam, uADStanError, uADDatSManager, uADPhysIntf,
+  uADDAptIntf, uADStanAsync, uADDAptManager, Data.DB, uADCompDataSet,
+  uADCompClient, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmUsuarios = class(TForm)
+    bntExcluir: TButton;
+    editNome: TLabeledEdit;
+    editSenha: TLabeledEdit;
+    comboStatus: TComboBox;
+    Label2: TLabel;
+    btnCancelar: TButton;
+    editID: TLabeledEdit;
+    btnAtualizar: TButton;
+    btnSalvar: TButton;
+    btnListar: TButton;
+    dbGridUsuarios: TDBGrid;
+    ADQuery1: TADQuery;
+    DataSource1: TDataSource;
+    procedure dbGridUsuariosCellClick(Column: TColumn);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmUsuarios: TfrmUsuarios;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmUsuarios.dbGridUsuariosCellClick(Column: TColumn);
+begin
+   editID.Text := dbGridUsuarios.DataSource.DataSet.FieldByName('ID').AsString;
+   editNome.Text := dbGridUsuarios.DataSource.DataSet.FieldByName('NOME').AsString;
+   editSenha.Text := dbGridUsuarios.DataSource.DataSet.FieldByName('SENHA').AsString;
+   comboStatus.Text := dbGridUsuarios.DataSource.DataSet.FieldByName('STATUS').AsString;
+end;
+
+//carrega os dados ao mostrar o formulário
+procedure TfrmUsuarios.FormShow(Sender: TObject);
+begin
+   ADQuery1.Close;
+   ADQuery1.SQL.Clear;
+   ADQuery1.SQL.Add('SELECT * FROM TBUSUARIO');
+   ADQuery1.Open;
+end;
+
+end.

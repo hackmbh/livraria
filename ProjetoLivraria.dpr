@@ -8,7 +8,9 @@ uses
   FormaPagamento in 'FormaPagamento.pas' {frmFormPagto},
   Livro in 'Livro.pas' {frmCadLivro},
   ClienteFornecedor in 'ClienteFornecedor.pas' {frmCliFor},
-  DataModLivraria in 'DataModLivraria.pas' {DataModuleLivraria: TDataModule};
+  DataModLivraria in 'DataModLivraria.pas' {DataModuleLivraria: TDataModule},
+  ModeloListaU in 'ModeloListaU.pas' {frmModeloLista},
+  clienteListaU in 'clienteListaU.pas' {frmClientesLista};
 
 {$R *.res}
 
@@ -17,10 +19,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDataModuleLivraria, DataModuleLivraria);
   Application.CreateForm(TfrmInicial, frmInicial);
-  Application.CreateForm(TfrmUsuarios, frmUsuarios);
-  Application.CreateForm(TfrmCliFor, frmCliFor);
-  Application.CreateForm(TfrmFormPagto, frmFormPagto);
-  Application.CreateForm(TfrmCadLivro, frmCadLivro);
-  Application.CreateForm(TfrmEditora, frmEditora);
   Application.Run;
 end.

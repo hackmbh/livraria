@@ -1,0 +1,37 @@
+unit Editora;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uADStanIntf,
+  uADStanOption, uADStanParam, uADStanError, uADDatSManager, uADPhysIntf,
+  uADDAptIntf, uADStanAsync, uADDAptManager, Vcl.Grids, Vcl.DBGrids, Data.DB,
+  uADCompDataSet, uADCompClient;
+
+type
+  TfrmEditora = class(TForm)
+    LabeledEdit1: TLabeledEdit;
+    LabeledEdit2: TLabeledEdit;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    LabeledEdit3: TLabeledEdit;
+    ADQuery1: TADQuery;
+    DataSource1: TDataSource;
+    DBGrid1: TDBGrid;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmEditora: TfrmEditora;
+
+implementation
+
+{$R *.dfm}
+
+end.

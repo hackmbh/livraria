@@ -1,0 +1,25 @@
+unit DataModLivraria;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TDataModuleLivraria = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModuleLivraria: TDataModuleLivraria;
+
+implementation
+
+{%CLASSGROUP 'System.Classes.TPersistent'}
+
+{$R *.dfm}
+
+end.

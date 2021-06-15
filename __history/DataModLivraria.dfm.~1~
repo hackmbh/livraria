@@ -1,0 +1,5 @@
+object DataModuleLivraria: TDataModuleLivraria
+  OldCreateOrder = False
+  Height = 421
+  Width = 694
+end
