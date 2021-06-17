@@ -50,6 +50,8 @@ type
     ToolButton6: TToolButton;
     ToolButton7: TToolButton;
     ToolButton8: TToolButton;
+    FormadePagamento1: TMenuItem;
+    acFormaPagamento: TAction;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -58,6 +60,8 @@ type
     procedure Button5Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure acCadClienteExecute(Sender: TObject);
+    procedure acCadFuncionarioExecute(Sender: TObject);
+    procedure acFormaPagamentoExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -71,12 +75,27 @@ implementation
 
 {$R *.dfm}
 
-uses Livro, Editora, Usuarios, ClienteFornecedor, clienteListaU, FormaPagamento, DataModLivraria;
+uses Livro, Editora, Usuarios, ClienteFornecedor, clienteListaU, formaPagamentoListaU, FormaPagamento, DataModLivraria, funcionarioListaU;
 
+//chamada de formulário Cliente através do Form MDI
 procedure TfrmInicial.acCadClienteExecute(Sender: TObject);
    var formulario : TForm;
 begin
    formulario := TfrmClientesLista.Create(Application);
+end;
+
+//chamada de formulário Funcionário através do Form MDI
+procedure TfrmInicial.acCadFuncionarioExecute(Sender: TObject);
+   var formularioFun : TForm;
+begin
+   formularioFun := TfrmFuncionarioLista.Create(Application);
+end;
+
+//chamada de formulário Formas de Pagamento através do Form MDI
+procedure TfrmInicial.acFormaPagamentoExecute(Sender: TObject);
+   var formularioFP : TForm;
+begin
+   formularioFP := TfrmFormaPagamentoLista.Create(Application);
 end;
 
 procedure TfrmInicial.Button1Click(Sender: TObject);

@@ -23,6 +23,7 @@ type
     DataSource1: TDataSource;
     Button5: TButton;
     LabeledEdit2: TLabeledEdit;
+    Edit1: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure LabeledEdit2Exit(Sender: TObject);

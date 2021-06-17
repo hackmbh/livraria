@@ -10,7 +10,11 @@ uses
   ClienteFornecedor in 'ClienteFornecedor.pas' {frmCliFor},
   DataModLivraria in 'DataModLivraria.pas' {DataModuleLivraria: TDataModule},
   ModeloListaU in 'ModeloListaU.pas' {frmModeloLista},
-  clienteListaU in 'clienteListaU.pas' {frmClientesLista};
+  clienteListaU in 'clienteListaU.pas' {frmClientesLista},
+  formaPagamentoListaU in 'formaPagamentoListaU.pas' {frmFormaPagamentoLista},
+  funcionarioListaU in 'funcionarioListaU.pas' {frmFuncionarioLista},
+  ModeloDadosU in 'ModeloDadosU.pas' {frmModeloDados},
+  clienteDadosU in 'clienteDadosU.pas' {frmClienteDados};
 
 {$R *.res}
 

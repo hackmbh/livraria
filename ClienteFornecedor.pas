@@ -43,6 +43,7 @@ type
     procedure dbGridCliForCellClick(Column: TColumn);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     //procedure dbGridCliForCellClick(Column: TColumn);
   private
     { Private declarations }
@@ -115,8 +116,8 @@ begin
    if editNomeRazao.Text <> '' then begin
       ADQuery1.Close;
       ADQuery1.SQL.Clear;
-      ADQuery1.SQL.Add('INSERT INTO TBCLIFOR (NOME, CPF_CNPJ, ENDERECO, TELEFONE, CEP, SEXO, DATA_NASC, PROFISSAO, ESTADO_CIVIL, STATUS, TIPO_PESSOA, TIPO_CLI_FOR)');
-      ADQuery1.SQL.Add(' VALUES (:NOME, :CPF_CNPJ, :ENDERECO, :TELEFONE, :CEP, :SEXO, :DATA_NASC, :PROFISSAO, :ESTADO_CIVIL, :STATUS, :TIPO_PESSOA, :TIPO_CLI_FOR)');
+      ADQuery1.SQL.Add('INSERT INTO TBCLIFOR (NOME, CPF_CNPJ, ENDERECO, TELEFONE, CEP, SEXO, DATA_NASC, PROFISSAO, ESTADO_CIVIL, STATUS, TIPO_PESSOA, TIPO_CLI_FOR, ID_USUARIO)');
+      ADQuery1.SQL.Add(' VALUES (:NOME, :CPF_CNPJ, :ENDERECO, :TELEFONE, :CEP, :SEXO, :DATA_NASC, :PROFISSAO, :ESTADO_CIVIL, :STATUS, :TIPO_PESSOA, :TIPO_CLI_FOR, :ID_USUARIO)');
       ADQuery1.ParamByName('NOME').AsString := editNomeRazao.Text;
       ADQuery1.ParamByName('CPF_CNPJ').AsString := editCpfCnpj.Text;
       ADQuery1.ParamByName('ENDERECO').AsString := editEndereco.Text;
@@ -130,6 +131,7 @@ begin
       ADQuery1.ParamByName('TIPO_PESSOA').AsInteger := StrToIntDef(comboStatus.Text, 0);
       ADQuery1.ParamByName('TIPO_CLI_FOR').AsInteger := StrToIntDef(comboTipoCliFor.Text, 0);
       ADQuery1.ParamByName('STATUS').AsInteger := StrToIntDef(comboStatus.Text, 0);
+      ADQuery1.ParamByName('ID_USUARIO').AsInteger := 1;
       ADQuery1.ExecSQL;
       btnListarClick(Sender);
    end;
@@ -167,6 +169,14 @@ begin
    ADQuery1.SQL.Clear;
    ADQuery1.SQL.Add('SELECT * FROM TBCLIFOR');
    ADQuery1.Open;
+end;
+
+procedure TfrmCliFor.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   ADQuery1.Close;
+   ADQuery1.SQL.Clear;
+   Action := caFree;
+   self := nil;
 end;
 
 procedure TfrmCliFor.FormCreate(Sender: TObject);

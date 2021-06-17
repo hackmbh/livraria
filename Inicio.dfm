@@ -327,7 +327,6 @@ object frmInicial: TfrmInicial
     Width = 734
     Height = 19
     Panels = <>
-    ExplicitWidth = 784
   end
   object tbPrincipal: TToolBar
     Left = 0
@@ -339,28 +338,29 @@ object frmInicial: TfrmInicial
     Caption = 'tbPrincipal'
     Images = ilPrincipal48
     TabOrder = 6
-    ExplicitLeft = -32
-    ExplicitTop = 31
-    ExplicitWidth = 784
     object ToolButton1: TToolButton
       Left = 0
       Top = 0
       Action = acCadCliente
+      ImageIndex = 124
     end
     object ToolButton2: TToolButton
       Left = 55
       Top = 0
       Action = acCadFuncionario
+      ImageIndex = 143
     end
     object ToolButton3: TToolButton
       Left = 110
       Top = 0
       Action = acCadProduto
+      ImageIndex = 73
     end
     object ToolButton4: TToolButton
       Left = 165
       Top = 0
       Action = acVenda
+      ImageIndex = 0
     end
     object ToolButton5: TToolButton
       Left = 220
@@ -374,16 +374,19 @@ object frmInicial: TfrmInicial
       Left = 228
       Top = 0
       Action = acRelCliente
+      ImageIndex = 54
     end
     object ToolButton7: TToolButton
       Left = 283
       Top = 0
       Action = acRelProduto
+      ImageIndex = 66
     end
     object ToolButton8: TToolButton
       Left = 338
       Top = 0
       Action = acRelVenda
+      ImageIndex = 67
     end
   end
   object Button1: TButton
@@ -441,16 +444,23 @@ object frmInicial: TfrmInicial
         Caption = 'Cadastro'
         object Cliente1: TMenuItem
           Action = acCadCliente
+          ImageIndex = 124
         end
         object Funcionrio1: TMenuItem
           Action = acCadFuncionario
+          ImageIndex = 143
         end
         object Produto1: TMenuItem
           Action = acCadProduto
+          ImageIndex = 73
+        end
+        object FormadePagamento1: TMenuItem
+          Action = acFormaPagamento
         end
       end
       object Venda1: TMenuItem
         Action = acVenda
+        ImageIndex = 0
       end
       object Sair1: TMenuItem
         Action = acSair
@@ -460,12 +470,15 @@ object frmInicial: TfrmInicial
       Caption = '&Relat'#243'rios'
       object Clientes1: TMenuItem
         Action = acRelCliente
+        ImageIndex = 54
       end
       object Produtos1: TMenuItem
         Action = acRelProduto
+        ImageIndex = 66
       end
       object Vendas1: TMenuItem
         Action = acRelVenda
+        ImageIndex = 67
       end
     end
     object Ajuda1: TMenuItem
@@ -482,7 +495,7 @@ object frmInicial: TfrmInicial
     Left = 424
     Top = 312
     Bitmap = {
-      494C01019800A8001C0030003000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019800A800240030003000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C000000050070000010020000000000000F0
       1500000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -46828,7 +46841,7 @@ object frmInicial: TfrmInicial
     Left = 504
     Top = 312
     Bitmap = {
-      494C01019800A8001C0014001400FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019800A800240014001400FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000000C030000010020000000000000CF
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -54939,6 +54952,7 @@ object frmInicial: TfrmInicial
     object acCadFuncionario: TAction
       Caption = 'Funcion'#225'rio'
       ImageIndex = 42
+      OnExecute = acCadFuncionarioExecute
     end
     object acCadProduto: TAction
       Caption = 'Produto'
@@ -54947,6 +54961,11 @@ object frmInicial: TfrmInicial
     object acVenda: TAction
       Caption = 'Venda'
       ImageIndex = 44
+    end
+    object acFormaPagamento: TAction
+      Caption = 'Formas de Pagamento'
+      ImageIndex = 45
+      OnExecute = acFormaPagamentoExecute
     end
     object acRelCliente: TAction
       Caption = 'Clientes'

@@ -99,6 +99,14 @@ object frmFormPagto: TfrmFormPagto
     TabOrder = 1
     OnExit = LabeledEdit2Exit
   end
+  object Edit1: TEdit
+    Left = 104
+    Top = 96
+    Width = 121
+    Height = 21
+    TabOrder = 8
+    Text = 'Edit1'
+  end
   object ADQuery1: TADQuery
     Connection = DataModuleLivraria.ADConnection1
     SQL.Strings = (
