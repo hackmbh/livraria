@@ -33,8 +33,26 @@ inherited frmClientesLista: TfrmClientesLista
         end
         item
           Expanded = False
+          FieldName = 'CPF_CNPJ'
+          Title.Caption = 'CPF/CNPJ'
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'PROFISSAO'
           Title.Caption = 'Profiss'#227'o'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ENDERECO'
+          Title.Caption = 'Endere'#231'o'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TELEFONE'
+          Title.Caption = 'Telefone'
           Visible = True
         end>
     end

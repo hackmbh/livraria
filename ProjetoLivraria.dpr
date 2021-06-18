@@ -14,7 +14,8 @@ uses
   formaPagamentoListaU in 'formaPagamentoListaU.pas' {frmFormaPagamentoLista},
   funcionarioListaU in 'funcionarioListaU.pas' {frmFuncionarioLista},
   ModeloDadosU in 'ModeloDadosU.pas' {frmModeloDados},
-  clienteDadosU in 'clienteDadosU.pas' {frmClienteDados};
+  clienteModalDadosU in 'clienteModalDadosU.pas' {frmModalClienteDados},
+  clienteDadosGeralU in 'clienteDadosGeralU.pas' {frmClienteDadosGeral};
 
 {$R *.res}
 

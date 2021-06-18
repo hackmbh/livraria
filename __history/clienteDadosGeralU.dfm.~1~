@@ -1,0 +1,23 @@
+inherited frmClienteDadosGeral: TfrmClienteDadosGeral
+  Caption = 'Clientes'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gbDados: TGroupBox
+    object editaID: TEdit
+      Left = 40
+      Top = 56
+      Width = 121
+      Height = 21
+      TabOrder = 0
+      Text = 'editaID'
+    end
+    object editNome: TEdit
+      Left = 216
+      Top = 56
+      Width = 121
+      Height = 21
+      TabOrder = 1
+      Text = 'editNome'
+    end
+  end
+end

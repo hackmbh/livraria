@@ -35,7 +35,7 @@ implementation
 
 {$R *.dfm}
 
-   uses DataModLivraria, clienteDadosU, ClienteFornecedor;
+   uses DataModLivraria, clienteModalDadosU, clienteDadosGeralU, ClienteFornecedor;
 
 //carrega os dados ao mostrar o formulário
 procedure TfrmClientesLista.FormShow(Sender: TObject);
@@ -68,7 +68,9 @@ procedure TfrmClientesLista.btnEditarClick(Sender: TObject);
    var formulario : TForm;
 begin
    inherited;
-   formulario := TfrmClienteDados.Create(Application);
+   //formulario := TfrmClienteDados.Create(Application);
+   frmModalClienteDados.editID.Text := dbgDados.Fields[0].Value;
+   frmModalClienteDados.ShowModal;
 end;
 
 procedure TfrmClientesLista.btnExcluirClick(Sender: TObject);
@@ -145,11 +147,20 @@ end;
 
 //duplo clique na linha do grid abre formulário com dados
 procedure TfrmClientesLista.dbgDadosDblClick(Sender: TObject);
-   var formulario : TForm;
 begin
    inherited;
-   //frmClienteDados.ShowModal;
-   formulario := TfrmClienteDados.Create(Application);
+   //***chamando formulário MODAL
+   {
+   frmModalClienteDados.editID.Text := dbgDados.Fields[0].Value; //usando dados do DBGrid
+   frmModalClienteDados.editStatus.Text := dbgDados.DataSource.DataSet.FieldByName('STATUS').AsString; //usando dados do DataSource
+   frmModalClienteDados.editNome.Text := dbgDados.DataSource.DataSet.FieldByName('NOME').AsString;
+   frmModalClienteDados.ShowModal;
+   }
+
+   //***chamando formulário CHILD
+   //idRef := dbgDados.Fields[0].Value; //usando dados do DBGrid
+   idRef := dbgDados.DataSource.DataSet.FieldByName('ID').AsInteger; //usando dados do DataSource
+   frmClienteDadosGeral := TfrmClienteDadosGeral.Create(Application);
 end;
 
 procedure TfrmClientesLista.dbgDadosTitleClick(Column: TColumn);

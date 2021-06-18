@@ -133,8 +133,12 @@
 				<Form>frmModeloDados</Form>
 				<FormType>dfm</FormType>
 			</DCCReference>
-			<DCCReference Include="clienteDadosU.pas">
-				<Form>frmClienteDados</Form>
+			<DCCReference Include="clienteModalDadosU.pas">
+				<Form>frmModalClienteDados</Form>
+				<FormType>dfm</FormType>
+			</DCCReference>
+			<DCCReference Include="clienteDadosGeralU.pas">
+				<Form>frmClienteDadosGeral</Form>
 				<FormType>dfm</FormType>
 			</DCCReference>
 			<BuildConfiguration Include="Release">

@@ -1,0 +1,61 @@
+unit clienteDadosGeralU;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ModeloDadosU, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.ExtCtrls, uADStanIntf, uADStanOption, uADStanParam,
+  uADStanError, uADDatSManager, uADPhysIntf, uADDAptIntf, uADStanAsync,
+  uADDAptManager, uADCompDataSet, uADCompClient;
+
+type
+  TfrmClienteDadosGeral = class(TfrmModeloDados)
+    editID: TEdit;
+    editNome: TEdit;
+    adqClientes: TADQuery;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmClienteDadosGeral: TfrmClienteDadosGeral;
+  idRef: Integer; // ID referencial
+
+implementation
+
+{$R *.dfm}
+
+   uses DataModLivraria;
+
+procedure TfrmClienteDadosGeral.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+   //adqClientes.Close;
+   Action := caFree;
+   self := nil;
+end;
+
+procedure TfrmClienteDadosGeral.FormShow(Sender: TObject);
+begin
+  inherited;
+  //ShowMessage(IntToStr(idRef));
+  adqClientes.Close;
+  adqClientes.SQL.Clear;
+  adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE ID = :ID');
+  adqClientes.ParamByName('ID').AsInteger := idRef;
+  adqClientes.Open;
+  if adqClientes.IsEmpty then begin
+      ShowMessage('Não existe cliente com o código '+IntToStr(idRef)+'!');
+      exit;
+  end;
+  editID.Text := IntToStr(idRef);
+  editNome.Text := adqClientes.FieldByName('NOME').AsString;
+end;
+
+end.
