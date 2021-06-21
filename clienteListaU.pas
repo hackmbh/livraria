@@ -43,7 +43,8 @@ begin
 
    adqClientes.Close;
    adqClientes.SQL.Clear;
-   adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = 1 OR TIPO_CLI_FOR = 3');
+   //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = 1 OR TIPO_CLI_FOR = 3');
+   adqClientes.SQL.Add('SELECT * FROM TBCLIFOR');
    adqClientes.Open;
 
    lbFiltro.Caption := dbgDados.Columns[0].Title.caption+': ';
@@ -56,11 +57,12 @@ end;
 
 //botão Adicionar
 procedure TfrmClientesLista.btnAdicionarClick(Sender: TObject);
-   var formulario : TForm;
 begin
    inherited;
    //formulario := TfrmClienteDados.Create(Application);
-   formulario := TfrmCliFor.Create(Application);
+   //frmCliFor := TfrmCliFor.Create(Application);
+   frmClienteDadosGeral := TfrmClienteDadosGeral.Create(Application);
+   idRef := 0;
 end;
 
 //botão Editar
@@ -68,9 +70,16 @@ procedure TfrmClientesLista.btnEditarClick(Sender: TObject);
    var formulario : TForm;
 begin
    inherited;
-   //formulario := TfrmClienteDados.Create(Application);
-   frmModalClienteDados.editID.Text := dbgDados.Fields[0].Value;
-   frmModalClienteDados.ShowModal;
+   {***chamando formulário MODAL
+   frmModalClienteDados.editID.Text := dbgDados.Fields[0].Value; //usando dados do DBGrid
+   frmModalClienteDados.editStatus.Text := dbgDados.DataSource.DataSet.FieldByName('STATUS').AsString; //usando dados do DataSource
+   frmModalClienteDados.editNome.Text := dbgDados.DataSource.DataSet.FieldByName('NOME').AsString;
+   frmModalClienteDados.ShowModal; }
+
+   //***chamando formulário CHILD
+   //idRef := dbgDados.Fields[0].Value; //usando dados do DBGrid
+   idRef := dbgDados.DataSource.DataSet.FieldByName('ID').AsInteger; //usando dados do DataSource
+   frmClienteDadosGeral := TfrmClienteDadosGeral.Create(Application);
 end;
 
 procedure TfrmClientesLista.btnExcluirClick(Sender: TObject);
