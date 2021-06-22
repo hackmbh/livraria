@@ -15,7 +15,8 @@ uses
   funcionarioListaU in 'funcionarioListaU.pas' {frmFuncionarioLista},
   ModeloDadosU in 'ModeloDadosU.pas' {frmModeloDados},
   clienteModalDadosU in 'clienteModalDadosU.pas' {frmModalClienteDados},
-  clienteDadosGeralU in 'clienteDadosGeralU.pas' {frmClienteDadosGeral};
+  clienteDadosGeralU in 'clienteDadosGeralU.pas' {frmClienteDadosGeral},
+  clientePesquisaU in 'clientePesquisaU.pas' {frmPesquisa};
 
 {$R *.res}
 
@@ -24,5 +25,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDataModuleLivraria, DataModuleLivraria);
   Application.CreateForm(TfrmInicial, frmInicial);
+  Application.CreateForm(TfrmPesquisa, frmPesquisa);
   Application.Run;
 end.

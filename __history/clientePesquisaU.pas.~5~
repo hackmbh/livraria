@@ -1,0 +1,50 @@
+unit clientePesquisaU;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  uADStanIntf, uADStanOption, uADStanParam, uADStanError, uADDatSManager,
+  uADPhysIntf, uADDAptIntf, uADStanAsync, uADDAptManager, Data.DB,
+  uADCompDataSet, uADCompClient;
+
+type
+  TfrmPesquisa = class(TForm)
+    Edit1: TEdit;
+    dbgPesquisa: TDBGrid;
+    dsPesquisa: TDataSource;
+    adqPesquisa: TADQuery;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesquisa: TfrmPesquisa;
+
+implementation
+
+{$R *.dfm}
+
+   uses DataModLivraria;
+
+procedure TfrmPesquisa.FormShow(Sender: TObject);
+begin
+   adqPesquisa.Close;
+   adqPesquisa.SQL.Clear;
+   //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = '+QuotedStr('C')+' OR TIPO_CLI_FOR = '+QuotedStr('A'));
+   adqPesquisa.SQL.Add('SELECT * FROM TBCLIFOR');
+   adqPesquisa.Open;
+
+   {
+   lbFiltro.Caption := dbgDados.Columns[0].Title.caption+': ';
+   editFiltro.Clear;
+   campoFiltro := dbgDados.Columns[0].FieldName; }
+
+   adqPesquisa.Filtered := false;
+end;
+
+end.

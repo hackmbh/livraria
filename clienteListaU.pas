@@ -43,7 +43,7 @@ begin
 
    adqClientes.Close;
    adqClientes.SQL.Clear;
-   //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = 1 OR TIPO_CLI_FOR = 3');
+   //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = '+QuotedStr('C')+' OR TIPO_CLI_FOR = '+QuotedStr('A'));
    adqClientes.SQL.Add('SELECT * FROM TBCLIFOR');
    adqClientes.Open;
 

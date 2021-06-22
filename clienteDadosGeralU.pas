@@ -20,7 +20,6 @@ type
     editCEP: TEdit;
     editDataNasc: TEdit;
     editProfissao: TEdit;
-    editTipoPessoa: TEdit;
     lbCodigo: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -30,7 +29,6 @@ type
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
-    Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
     Label13: TLabel;
@@ -39,9 +37,17 @@ type
     cbTipoCliente: TComboBox;
     cbEstadoCivil: TComboBox;
     rgPessoa: TRadioGroup;
+    editJuridica: TEdit;
+    editEstrangeira: TEdit;
+    editFisica: TEdit;
+    lbFisica: TLabel;
+    lbJuridica: TLabel;
+    lbEstrangeira: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
+    procedure rgPessoaClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -54,12 +60,13 @@ var
   cbSexoItem : string;
   cbTipoClienteItem : string;
   cbEstadoCivilItem : string;
+  rgPessoaItem : string;
 
 implementation
 
 {$R *.dfm}
 
-   uses DataModLivraria, clienteListaU;
+   uses DataModLivraria, clienteListaU, clientePesquisaU;
 
 procedure TfrmClienteDadosGeral.btnSalvarClick(Sender: TObject);
    var cbIndice : integer;
@@ -105,7 +112,7 @@ begin
          adqClientes.ParamByName('PROFISSAO').AsString := editProfissao.Text;
          //adqClientes.ParamByName('ESTADO_CIVIL').AsString := editEstadoCivil.Text;
          adqClientes.ParamByName('STATUS').AsInteger := cbStatus.ItemIndex;
-         adqClientes.ParamByName('TIPO_PESSOA').AsInteger := StrToIntDef(editTipoPessoa.Text, 0);
+         //adqClientes.ParamByName('TIPO_PESSOA').AsInteger := StrToIntDef(editTipoPessoa.Text, 0);
          adqClientes.ParamByName('TIPO_CLI_FOR').AsString := cbTipoClienteItem;
          adqClientes.ParamByName('ID_USUARIO').AsInteger := 1;
          //realiza o cadastro
@@ -164,6 +171,14 @@ begin
                else
                   cbEstadoCivilItem := '';
 
+               //prepara radioGroup TipoPessoa
+               if rgPessoa.ItemIndex = 0 then
+                  rgPessoaItem := 'F'
+               else if rgPessoa.ItemIndex = 1 then
+                  rgPessoaItem := 'J'
+               else if rgPessoa.ItemIndex = 2 then
+                  rgPessoaItem := 'E';
+
 
               { if cbEstadoCivilItem = 'S' then //se S = SOLTEIRO e index 0
                   cbEstadoCivil.ItemIndex := 0
@@ -190,7 +205,7 @@ begin
                adqClientes.ParamByName('PROFISSAO').AsString := editProfissao.Text;
                adqClientes.ParamByName('ESTADO_CIVIL').AsString := cbEstadoCivilItem;
                adqClientes.ParamByName('STATUS').AsInteger := cbStatus.ItemIndex;
-               adqClientes.ParamByName('TIPO_PESSOA').AsInteger := StrToIntDef(editTipoPessoa.Text, 0);
+               adqClientes.ParamByName('TIPO_PESSOA').AsString := rgPessoaItem;
                adqClientes.ParamByName('TIPO_CLI_FOR').AsString := cbTipoClienteItem;
                //adqClientes.ParamByName('ID_USUARIO').AsInteger := 1;
                adqClientes.ParamByName('ID').AsString := editID.Text;
@@ -219,6 +234,14 @@ begin
    self := nil;
 end;
 
+procedure TfrmClienteDadosGeral.FormKeyDown(Sender: TObject; var Key: Word;
+   Shift: TShiftState);
+begin
+   inherited;
+   if Key = VK_F9 then
+      frmPesquisa.ShowModal;
+end;
+
 procedure TfrmClienteDadosGeral.FormShow(Sender: TObject);
    var cbIndice : integer;
    var cbItem : string;
@@ -228,6 +251,8 @@ begin
   if idRef = 0 then begin
       ShowMessage('ID vazio - Acrescente novo usuário!');
       //desativa o campo código, pois o mesmo é inserido de forma autoincremento
+      rgPessoa.ItemIndex := 0;
+      editFisica.Visible := true;
       editID.Text := '';
       editID.Enabled := false;
       lbCodigo.Enabled := false;
@@ -241,7 +266,7 @@ begin
       editDataNasc.Text := '';
       editProfissao.Text := '';
       //editEstadoCivil.Text := '';
-      editTipoPessoa.Text := '';
+      //editTipoPessoa.Text := '';
       //editCliFor.Text := '';
   end
   else begin
@@ -298,6 +323,15 @@ begin
       else //se em branco PJ
          cbEstadoCivil.ItemIndex := 4;
 
+      //prepara radioGroup TipoPessoa
+      rgPessoaItem := adqClientes.FieldByName('TIPO_PESSOA').AsString;
+      if rgPessoaitem = 'F' then //se F = FISICA e index 0
+         rgPessoa.ItemIndex := 0
+      else if rgPessoaitem = 'J' then //se J = JURIDICA e index 1
+         rgPessoa.ItemIndex := 1
+      else if rgPessoaitem = 'E' then //se E = ESTRANGEIRA e index 2
+         rgPessoa.ItemIndex := 2;
+
       editID.Text := IntToStr(idRef);
       cbStatus.ItemIndex := adqClientes.FieldByName('STATUS').AsInteger;
       editNome.Text := adqClientes.FieldByName('NOME').AsString;
@@ -309,11 +343,38 @@ begin
       //cbSexo.ItemIndex := adqClientes.FieldByName('STATUS').AsInteger;
       editDataNasc.Text := adqClientes.FieldByName('DATA_NASC').AsString;
       editProfissao.Text := adqClientes.FieldByName('PROFISSAO').AsString;
-      //editEstadoCivil.Text := adqClientes.FieldByName('ESTADO_CIVIL').AsString;
-      editTipoPessoa.Text := adqClientes.FieldByName('TIPO_PESSOA').AsString;
-      //editCliFor.Text := adqClientes.FieldByName('TIPO_CLI_FOR').AsString;
+      rgPessoaClick(Sender); //Verifica o TipoPessoa e exibe os campos necessários
   end;
 
+end;
+
+procedure TfrmClienteDadosGeral.rgPessoaClick(Sender: TObject);
+   var rgPessoaItemSelected : integer;
+begin
+   inherited;
+   //rgPessoa.ItemIndex := 0;
+   rgPessoaItemSelected := rgPessoa.ItemIndex;
+   //rgPessoaItemSelected := 0;
+
+   //ShowMessage('Item selecionado: : ' + IntToStr(rgPessoaItemSelected));
+   if rgPessoaItemSelected = 0 then begin
+      //ShowMessage('Item selecionado: ' + IntToStr(rgPessoaItemSelected));
+      editFisica.Visible := true;
+      editJuridica.Visible := false;
+      editEstrangeira.Visible := false
+   end
+   else if rgPessoaItemSelected = 1 then begin
+      //ShowMessage('Item selecionado: ' + IntToStr(rgPessoaItemSelected));
+      editFisica.Visible := false;
+      editJuridica.Visible := true;
+      editEstrangeira.Visible := false
+   end
+   else if rgPessoaItemSelected = 2 then begin
+      //ShowMessage('Item selecionado: ' + IntToStr(rgPessoaItemSelected));
+      editFisica.Visible := false;
+      editJuridica.Visible := false;
+      editEstrangeira.Visible := true
+   end;
 end;
 
 end.
