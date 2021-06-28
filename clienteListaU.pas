@@ -21,6 +21,7 @@ type
     procedure btnAdicionarClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure dbgDadosDblClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -170,6 +171,7 @@ begin
    //idRef := dbgDados.Fields[0].Value; //usando dados do DBGrid
    idRef := dbgDados.DataSource.DataSet.FieldByName('ID').AsInteger; //usando dados do DataSource
    frmClienteDadosGeral := TfrmClienteDadosGeral.Create(Application);
+   //frmClientesLista.FormState :=
 end;
 
 procedure TfrmClientesLista.dbgDadosTitleClick(Column: TColumn);
@@ -191,6 +193,13 @@ begin
       btnFiltro.Enabled := true;
       btnFiltroClick(Sender);
    end;
+end;
+
+procedure TfrmClientesLista.FormActivate(Sender: TObject);
+begin
+  inherited;
+  //ShowMessage('Ativou form!');
+  dsModelo.DataSet.Refresh;
 end;
 
 //fecha o formulário, query e sua instância na memória

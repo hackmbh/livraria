@@ -1,5 +1,6 @@
 inherited frmClientesLista: TfrmClientesLista
   Caption = 'Lista de Clientes'
+  OnActivate = FormActivate
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
@@ -35,7 +36,7 @@ inherited frmClientesLista: TfrmClientesLista
           Expanded = False
           FieldName = 'CPF_CNPJ'
           Title.Caption = 'CPF/CNPJ'
-          Width = 100
+          Width = 120
           Visible = True
         end
         item

@@ -11,38 +11,93 @@ uses
 
 type
   TfrmClienteDadosGeral = class(TfrmModeloDados)
-    editID: TEdit;
     editNome: TEdit;
     adqClientes: TADQuery;
-    editCPFCNPJ: TEdit;
+    editCPF: TEdit;
     editEndereco: TEdit;
     editTelefone: TEdit;
     editCEP: TEdit;
     editDataNasc: TEdit;
     editProfissao: TEdit;
     lbCodigo: TLabel;
-    Label2: TLabel;
+    lbStatus: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    Label5: TLabel;
+    lbCPFCNPJ: TLabel;
     Label6: TLabel;
-    Label7: TLabel;
+    lbEndereco: TLabel;
     Label8: TLabel;
-    Label9: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
+    lbTelefone: TLabel;
+    lbCEP: TLabel;
+    lbClienteFornecedor: TLabel;
     Label13: TLabel;
     cbStatus: TComboBox;
     cbSexo: TComboBox;
-    cbTipoCliente: TComboBox;
+    cbTipoCliFor: TComboBox;
     cbEstadoCivil: TComboBox;
     rgPessoa: TRadioGroup;
-    editJuridica: TEdit;
-    editEstrangeira: TEdit;
-    editFisica: TEdit;
-    lbFisica: TLabel;
-    lbJuridica: TLabel;
-    lbEstrangeira: TLabel;
+    lbFantasia: TLabel;
+    pnEndereco: TPanel;
+    editNumero: TEdit;
+    lbNumero: TLabel;
+    lbComplemento: TLabel;
+    lbCidade: TLabel;
+    editCidadeCod: TEdit;
+    editCidadeDesc: TEdit;
+    lbEstado: TLabel;
+    editEstadoCod: TEdit;
+    editEstadoDesc: TEdit;
+    lbBairro: TLabel;
+    editBairroCod: TEdit;
+    editBairroDesc: TEdit;
+    lbPais: TLabel;
+    editPaisCod: TEdit;
+    editPaisDesc: TEdit;
+    lbTelefone2: TLabel;
+    editCelular: TEdit;
+    lbEmail: TLabel;
+    editEmail: TEdit;
+    editSite: TEdit;
+    lbSite: TLabel;
+    memoComplemento: TMemo;
+    gbDadosPJ: TGroupBox;
+    editProfissaoCod: TEdit;
+    lbRG: TLabel;
+    editRGNumero: TEdit;
+    lbFormacao: TLabel;
+    editFormacao: TEdit;
+    Nacionalidade: TLabel;
+    editNacionalidadeCod: TEdit;
+    editNacionalidadeDesc: TEdit;
+    Label1: TLabel;
+    editNaturalidadeCod: TEdit;
+    editNaturalidadeDesc: TEdit;
+    lbCNPJ: TLabel;
+    lbNomePJ: TLabel;
+    lbInscEstadual: TLabel;
+    lbIndicadorIE: TLabel;
+    cbIndicadorIE: TComboBox;
+    lbNatJuri: TLabel;
+    lbContato: TLabel;
+    lbCNAE: TLabel;
+    lbInscMuni: TLabel;
+    lbCadastroReg: TLabel;
+    editCadastroReg: TEdit;
+    cboxEmpSimples: TCheckBox;
+    cboxIsentoICMS: TCheckBox;
+    editID: TEdit;
+    editCNPJ: TEdit;
+    editRazaoSocial: TEdit;
+    editInscMun: TEdit;
+    editNomeFantasia: TEdit;
+    editInscEst: TEdit;
+    editNatJurCod: TEdit;
+    editNatJurDesc: TEdit;
+    editContato: TEdit;
+    editCNAECod: TEdit;
+    editCNAEDesc: TEdit;
+    editRGOrgao: TEdit;
+    lbRGOrgao: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
@@ -61,6 +116,7 @@ var
   cbTipoClienteItem : string;
   cbEstadoCivilItem : string;
   rgPessoaItem : string;
+  cbIndicadorIEItem : integer;
 
 implementation
 
@@ -69,7 +125,7 @@ implementation
    uses DataModLivraria, clienteListaU, clientePesquisaU;
 
 procedure TfrmClienteDadosGeral.btnSalvarClick(Sender: TObject);
-   var cbIndice : integer;
+   var cbIndice, cbSimples, cbIsentoICMS : integer;
 begin
    inherited;
    //Se o idRef = 0 Cadastrar usuarío
@@ -78,45 +134,119 @@ begin
       //2-confirma o cadastro com mensagem
       //3-fecha o form
       //4-atualiza o form clienteListaU
+
       if editID.Text <> '' then begin
          ShowMessage('O campo ID deve estar em branco para realizar um novo cadastro!');
          exit;
       end;
       if editNome.Text <> '' then begin
-         //prepara combo sexo
-         if cbSexo.ItemIndex = 0 then
-            cbSexo.Text := 'F'
-         else begin
-            cbSexo.Text := 'M';
+
+         //prepara radioGroup TipoPessoa
+         if rgPessoa.ItemIndex = 0 then
+            rgPessoaItem := 'F'
+         else if rgPessoa.ItemIndex = 1 then
+            rgPessoaItem := 'J'
+         else if rgPessoa.ItemIndex = 2 then
+            rgPessoaItem := 'E';
+
+         adqClientes.Close;
+         adqClientes.SQL.Clear;
+
+         //dados e query específicos para pessoa FÍSICA e ESTRANGEIRA
+         if (rgPessoaItem = 'F') or (rgPessoaItem = 'E') then begin
+
+            //prepara combo sexo
+            if cbSexo.ItemIndex = 0 then
+               cbSexo.Text := 'F'
+            else begin
+               cbSexo.Text := 'M';
+            end;
+
+            //prepara combobox EstadoCivil
+            if cbEstadoCivil.ItemIndex = 0 then
+               cbEstadoCivilItem := 'S'
+            else if cbEstadoCivil.ItemIndex = 1 then
+               cbEstadoCivilItem := 'C'
+            else if cbEstadoCivil.ItemIndex = 2 then
+               cbEstadoCivilItem := 'V'
+            else if cbEstadoCivil.ItemIndex = 3 then
+               cbEstadoCivilItem := 'D'
+            else
+               cbEstadoCivilItem := '';
+
+            adqClientes.SQL.Add('INSERT INTO TBCLIFOR (NOME, CPF_CNPJ, ENDERECO, TELEFONE, CEP, SEXO, DATA_NASC, PROFISSAO, ESTADO_CIVIL, STATUS, TIPO_PESSOA, TIPO_CLI_FOR, ID_USUARIO)');
+            adqClientes.SQL.Add(' VALUES (:NOME, :CPF_CNPJ, :ENDERECO, :TELEFONE, :CEP, :SEXO, :DATA_NASC, :PROFISSAO, :ESTADO_CIVIL, :STATUS, :TIPO_PESSOA, :TIPO_CLI_FOR, :ID_USUARIO)');
+            adqClientes.ParamByName('CPF_CNPJ').AsString := editCPF.Text;
+            adqClientes.ParamByName('NOME').AsString := editNome.Text;
+            adqClientes.ParamByName('DATA_NASC').AsString := editDataNasc.Text;
+            adqClientes.ParamByName('DATA_NASC').AsString := editDataNasc.Text;
+            adqClientes.ParamByName('RG_NUMERO').AsString := editRGNumero.Text;
+            adqClientes.ParamByName('RG_ORGAO').AsString := editRGOrgao.Text;
+            adqClientes.ParamByName('ESTADO_CIVIL').AsString := cbEstadoCivilItem;
+            adqClientes.ParamByName('SEXO').AsString := cbSexo.Text;
+            adqClientes.ParamByName('FORMACAO').AsString := editFormacao.Text;
+            adqClientes.ParamByName('ID_NACIONALIDADE').AsInteger := StrToIntDef(editNacionalidadeCod.Text, 0);
+            adqClientes.ParamByName('ID_NATURALIDADE').AsInteger := StrToIntDef(editNaturalidadeCod.Text, 0);
+
+         end
+         //dados e query específicos para pessoa JURÍDICA
+         else if rgPessoaItem = 'J' then begin
+
+            //prepara combobox Indicador IE
+            if cbIndicadorIE.ItemIndex = 0 then
+               cbIndicadorIEItem := 1
+            else if cbIndicadorIE.ItemIndex = 1 then
+               cbIndicadorIEItem := 2
+            else if cbIndicadorIE.ItemIndex = 2 then
+            cbIndicadorIEItem := 9;
+
+            //prepara checkbox Opção Simples Nacional
+            if cboxEmpSimples.Checked = False then
+               cbSimples := 0
+            else cbSimples := 1;
+
+            //prepara checkbox Opção Isento ICMS
+            if cboxIsentoICMS.Checked = False then
+               cbIsentoICMS := 0
+            else cbIsentoICMS := 1;
+
+            adqClientes.SQL.Add('INSERT INTO TBCLIFOR (NOME, CPF_CNPJ, ENDERECO, TELEFONE, CEP, SEXO, DATA_NASC, PROFISSAO, ESTADO_CIVIL, STATUS, TIPO_PESSOA, TIPO_CLI_FOR, ID_USUARIO)');
+            adqClientes.SQL.Add(' VALUES (:NOME, :CPF_CNPJ, :ENDERECO, :TELEFONE, :CEP, :SEXO, :DATA_NASC, :PROFISSAO, :ESTADO_CIVIL, :STATUS, :TIPO_PESSOA, :TIPO_CLI_FOR, :ID_USUARIO)');
+            adqClientes.ParamByName('CPF_CNPJ').AsString := editCNPJ.Text;
+            adqClientes.ParamByName('NOME').AsString := editRazaoSocial.Text;
+            adqClientes.ParamByName('INSCRICAO_MUNICIPAL').AsString := editInscMun.Text;
+            adqClientes.ParamByName('NOME_FANTASIA').AsString := editNomeFantasia.Text;
+            adqClientes.ParamByName('INSCRICAO_ESTADUAL').AsString := editInscMun.Text;
+            adqClientes.ParamByName('INDICADOR_IE').AsInteger := cbIndicadorIEItem;
+            adqClientes.ParamByName('ID_NAT_JURIDICA').AsInteger := StrToIntDef(editNatJurCod.Text, 0);
+            adqClientes.ParamByName('CONTATO').AsString := editContato.Text;
+            adqClientes.ParamByName('ID_CNAE_FISCAL').AsInteger := StrToIntDef(editCNAECod.Text, 0);
+            adqClientes.ParamByName('EMP_OPT_SIMPLES').AsInteger := cbSimples;
+            adqClientes.ParamByName('EMP_ISENTO_ICMS').AsInteger := cbIsentoICMS;
          end;
 
+         //dados comuns para pessoa FÍSICA, ESTRANGEIRA E JURÍDICA
          //prepara combobox TipoCliente
-         if cbTipoCliente.ItemIndex = 0 then
+         if cbTipoCliFor.ItemIndex = 0 then
             cbTipoClienteItem := 'C'
-         else if cbTipoCliente.ItemIndex = 1 then
+         else if cbTipoCliFor.ItemIndex = 1 then
             cbTipoClienteItem := 'F'
          else
             cbTipoClienteItem := 'A';
 
-         adqClientes.Close;
-         adqClientes.SQL.Clear;
-         adqClientes.SQL.Add('INSERT INTO TBCLIFOR (NOME, CPF_CNPJ, ENDERECO, TELEFONE, CEP, SEXO, DATA_NASC, PROFISSAO, ESTADO_CIVIL, STATUS, TIPO_PESSOA, TIPO_CLI_FOR, ID_USUARIO)');
-         adqClientes.SQL.Add(' VALUES (:NOME, :CPF_CNPJ, :ENDERECO, :TELEFONE, :CEP, :SEXO, :DATA_NASC, :PROFISSAO, :ESTADO_CIVIL, :STATUS, :TIPO_PESSOA, :TIPO_CLI_FOR, :ID_USUARIO)');
-         adqClientes.ParamByName('NOME').AsString := editNome.Text;
-         adqClientes.ParamByName('CPF_CNPJ').AsString := editCpfCnpj.Text;
+         adqClientes.ParamByName('TIPO_PESSOA').AsString := rgPessoaItem;
          adqClientes.ParamByName('ENDERECO').AsString := editEndereco.Text;
          adqClientes.ParamByName('TELEFONE').AsString := editTelefone.Text;
          adqClientes.ParamByName('CEP').AsString := editCep.Text;
-         adqClientes.ParamByName('SEXO').AsString := cbSexo.Text;
-         adqClientes.ParamByName('DATA_NASC').AsString := editDataNasc.Text;
          adqClientes.ParamByName('PROFISSAO').AsString := editProfissao.Text;
-         //adqClientes.ParamByName('ESTADO_CIVIL').AsString := editEstadoCivil.Text;
          adqClientes.ParamByName('STATUS').AsInteger := cbStatus.ItemIndex;
-         //adqClientes.ParamByName('TIPO_PESSOA').AsInteger := StrToIntDef(editTipoPessoa.Text, 0);
+
          adqClientes.ParamByName('TIPO_CLI_FOR').AsString := cbTipoClienteItem;
          adqClientes.ParamByName('ID_USUARIO').AsInteger := 1;
+
          //realiza o cadastro
          adqClientes.ExecSQL;
+
          //2-confirma o cadastro com mensagem
          ShowMessage('Usuário '+editNome.Text+' cadastrado com sucesso!');
          //3-fecha o form
@@ -125,6 +255,7 @@ begin
          //frmClientesLista.FormShow(Sender);
          frmClientesLista.adqClientes.Refresh;
          frmClientesLista.dbgDados.Refresh;
+
       end;
       ShowMessage('Usuário '+editNome.Text+' cadastrado com sucesso!');
       PostMessage(frmClienteDadosGeral.Handle, WM_CLOSE, 0, 0);
@@ -152,9 +283,9 @@ begin
                end;
 
                //prepara combobox TipoCliente
-               if cbTipoCliente.ItemIndex = 0 then
+               if cbTipoCliFor.ItemIndex = 0 then
                   cbTipoClienteItem := 'C'
-               else if cbTipoCliente.ItemIndex = 1 then
+               else if cbTipoCliFor.ItemIndex = 1 then
                   cbTipoClienteItem := 'F'
                else
                   cbTipoClienteItem := 'A';
@@ -193,26 +324,50 @@ begin
 
                adqClientes.Close;
                adqClientes.SQL.Clear;
-               adqClientes.SQL.Add('UPDATE TBCLIFOR SET NOME = :NOME, CPF_CNPJ = :CPF_CNPJ, ENDERECO = :ENDERECO, TELEFONE = :TELEFONE, CEP = :CEP, SEXO = :SEXO,');
-               adqClientes.SQL.Add(' DATA_NASC = :DATA_NASC, PROFISSAO = :PROFISSAO, ESTADO_CIVIL = :ESTADO_CIVIL, STATUS = :STATUS, TIPO_PESSOA = :TIPO_PESSOA, TIPO_CLI_FOR = :TIPO_CLI_FOR WHERE ID = :ID');
-               adqClientes.ParamByName('NOME').AsString := editNome.Text;
-               adqClientes.ParamByName('CPF_CNPJ').AsString := editCpfCnpj.Text;
+
+               //dados e query específicos de cada tipo de pessoa
+               if (rgPessoaItem = 'F') or (rgPessoaItem = 'E') then begin
+                  adqClientes.SQL.Add('UPDATE TBCLIFOR SET NOME = :NOME, CPF_CNPJ = :CPF_CNPJ, ENDERECO = :ENDERECO, TELEFONE = :TELEFONE, CEP = :CEP, SEXO = :SEXO,');
+                  adqClientes.SQL.Add(' DATA_NASC = :DATA_NASC, PROFISSAO = :PROFISSAO, ESTADO_CIVIL = :ESTADO_CIVIL, STATUS = :STATUS, TIPO_PESSOA = :TIPO_PESSOA, TIPO_CLI_FOR = :TIPO_CLI_FOR WHERE ID = :ID');
+                  adqClientes.ParamByName('NOME').AsString := editNome.Text;
+                  adqClientes.ParamByName('CPF_CNPJ').AsString := editCPF.Text;
+                  adqClientes.ParamByName('SEXO').AsString := cbSexoItem;
+                  adqClientes.ParamByName('DATA_NASC').AsString := FormatDateTime('yyyy/mm/dd', StrToDateDef(editDataNasc.Text, 0));
+                  adqClientes.ParamByName('ESTADO_CIVIL').AsString := cbEstadoCivilItem;
+               end
+               else if rgPessoaItem = 'J' then begin
+                  adqClientes.SQL.Add('UPDATE TBCLIFOR SET NOME = :NOME, CPF_CNPJ = :CPF_CNPJ, ENDERECO = :ENDERECO, TELEFONE = :TELEFONE, CEP = :CEP, SEXO = :SEXO,');
+                  adqClientes.SQL.Add(' DATA_NASC = :DATA_NASC, PROFISSAO = :PROFISSAO, ESTADO_CIVIL = :ESTADO_CIVIL, STATUS = :STATUS, TIPO_PESSOA = :TIPO_PESSOA, TIPO_CLI_FOR = :TIPO_CLI_FOR WHERE ID = :ID');
+                  adqClientes.ParamByName('NOME').AsString := editNome.Text;
+                  adqClientes.ParamByName('CPF_CNPJ').AsString := editCPF.Text;
+               end;
+
+               //dados comuns
                adqClientes.ParamByName('ENDERECO').AsString := editEndereco.Text;
                adqClientes.ParamByName('TELEFONE').AsString := editTelefone.Text;
                adqClientes.ParamByName('CEP').AsString := editCep.Text;
-               adqClientes.ParamByName('SEXO').AsString := cbSexoItem;
-               adqClientes.ParamByName('DATA_NASC').AsString := FormatDateTime('yyyy/mm/dd', StrToDateDef(editDataNasc.Text, 0));
                adqClientes.ParamByName('PROFISSAO').AsString := editProfissao.Text;
-               adqClientes.ParamByName('ESTADO_CIVIL').AsString := cbEstadoCivilItem;
                adqClientes.ParamByName('STATUS').AsInteger := cbStatus.ItemIndex;
                adqClientes.ParamByName('TIPO_PESSOA').AsString := rgPessoaItem;
                adqClientes.ParamByName('TIPO_CLI_FOR').AsString := cbTipoClienteItem;
                //adqClientes.ParamByName('ID_USUARIO').AsInteger := 1;
                adqClientes.ParamByName('ID').AsString := editID.Text;
+
                adqClientes.ExecSQL;
             finally
                //btnListarClick(Sender);
-               ShowMessage('Atualizado com sucesso!');
+               //ShowMessage('Atualizado com sucesso!');
+               //MessageBox(application.Handle, Pchar('Cliente '+editNome.Text+' atualizado com sucesso!'),  Pchar('Informação'), MB_OK+MB_ICONINFORMATION);
+               //MessageDlg('Atualizado com sucesso!',mtWarning ,[mbOk],0);
+               Application.MessageBox('Cliente atualizado com sucesso!','Sucesso',MB_ICONINFORMATION+MB_OK);
+               //adqClientes.Close;
+               //adqClientes.SQL.Clear;
+               frmClienteDadosGeral.Close;
+               //frmClientesLista.dbgDados.DataSource.DataSet.Refresh;
+               //frmClientesLista.adqClientes.DataSource.DataSet.Refresh;
+               //frmClientesLista.editFiltro.SetFocus;
+               //frmClientesLista.Close;
+               //application.processmessages;
             end;
          end;
       end;
@@ -229,6 +384,14 @@ begin
    //frmClientesLista.OnShow(frmClientesLista);
    //frmClientesLista.adqClientes.Refresh;
    //frmClientesLista.dbgDados.Refresh;
+   //frmClientesLista.Close;
+   //dsModelo.DataSet.Refresh;
+   //frmClientesLista.adqClientes.DataSource.DataSet.Refresh;
+   //adqClientes.Close;
+   //adqClientes.SQL.Clear;
+   //frmClientesLista.dbgDados.DataSource.DataSet.Refresh;
+   //frmClientesLista.adqClientes.DataSource.DataSet.Refresh;
+   //frmClientesLista.Close();
    Action := caFree;
    idRef := 0;
    self := nil;
@@ -245,6 +408,7 @@ end;
 procedure TfrmClienteDadosGeral.FormShow(Sender: TObject);
    var cbIndice : integer;
    var cbItem : string;
+
 begin
   inherited;
   //ShowMessage(IntToStr(idRef));
@@ -252,13 +416,17 @@ begin
       ShowMessage('ID vazio - Acrescente novo usuário!');
       //desativa o campo código, pois o mesmo é inserido de forma autoincremento
       rgPessoa.ItemIndex := 0;
-      editFisica.Visible := true;
+      cbStatus.ItemIndex := 1;
+      cbTipoCliFor.ItemIndex := 0;
+      cbTipoCliFor.Enabled := false;
+      //editFisica.Visible := true;
       editID.Text := '';
       editID.Enabled := false;
+      editCadastroReg.Enabled := false;
       lbCodigo.Enabled := false;
       //editStatus.Text := '';
       editNome.Text := '';
-      editCPFCNPJ.Text := '';
+      editCPF.Text := '';
       editEndereco.Text := '';
       editTelefone.Text := '';
       editCEP.Text := '';
@@ -279,6 +447,8 @@ begin
           ShowMessage('Não existe cliente com o código '+IntToStr(idRef)+'!');
           exit;
       end;
+
+      rgPessoa.Enabled := false;
 
       //prepara comboBox Status
       //cbIndice := adqClientes.FieldByName('STATUS').AsInteger;
@@ -304,11 +474,11 @@ begin
       //prepara comboBox TipoCliente
       cbTipoClienteItem := adqClientes.FieldByName('TIPO_CLI_FOR').AsString;
       if cbTipoClienteItem = 'C' then //se C = tipo CLIENTE e index 0
-         cbTipoCliente.ItemIndex := 0
+         cbTipoCliFor.ItemIndex := 0
       else if cbTipoClienteItem = 'F' then //se F = tipo FORNECEDOR e o index 1
-         cbTipoCliente.ItemIndex := 1
+         cbTipoCliFor.ItemIndex := 1
       else //se A = tipo AMBOS e o index 2
-         cbTipoCliente.ItemIndex := 2;
+         cbTipoCliFor.ItemIndex := 2;
 
       //prepara comboBox EstadoCivil
       cbEstadoCivilItem := adqClientes.FieldByName('ESTADO_CIVIL').AsString;
@@ -334,16 +504,23 @@ begin
 
       editID.Text := IntToStr(idRef);
       cbStatus.ItemIndex := adqClientes.FieldByName('STATUS').AsInteger;
-      editNome.Text := adqClientes.FieldByName('NOME').AsString;
-      editCPFCNPJ.Text := adqClientes.FieldByName('CPF_CNPJ').AsString;
       editEndereco.Text := adqClientes.FieldByName('ENDERECO').AsString;
       editTelefone.Text := adqClientes.FieldByName('TELEFONE').AsString;
       editCEP.Text := adqClientes.FieldByName('CEP').AsString;
-      //editSexo.Text := adqClientes.FieldByName('SEXO').AsString;
-      //cbSexo.ItemIndex := adqClientes.FieldByName('STATUS').AsInteger;
-      editDataNasc.Text := adqClientes.FieldByName('DATA_NASC').AsString;
       editProfissao.Text := adqClientes.FieldByName('PROFISSAO').AsString;
-      rgPessoaClick(Sender); //Verifica o TipoPessoa e exibe os campos necessários
+
+      if (rgPessoaItem = 'F') or (rgPessoaItem = 'E') then begin
+         editNome.Text := adqClientes.FieldByName('NOME').AsString;
+         editCPF.Text := adqClientes.FieldByName('CPF_CNPJ').AsString;
+         editDataNasc.Text := adqClientes.FieldByName('DATA_NASC').AsString;
+         rgPessoaClick(Sender); //Verifica o TipoPessoa e exibe os campos necessários
+      end
+      else if rgPessoaItem = 'J' then begin
+         editRazaoSocial.Text := adqClientes.FieldByName('NOME').AsString;
+         editNomeFantasia.Text := adqClientes.FieldByName('NOME').AsString;
+         editCNPJ.Text := adqClientes.FieldByName('CPF_CNPJ').AsString;
+         rgPessoaClick(Sender); //Verifica o TipoPessoa e exibe os campos necessários
+      end;
   end;
 
 end;
@@ -359,21 +536,29 @@ begin
    //ShowMessage('Item selecionado: : ' + IntToStr(rgPessoaItemSelected));
    if rgPessoaItemSelected = 0 then begin
       //ShowMessage('Item selecionado: ' + IntToStr(rgPessoaItemSelected));
-      editFisica.Visible := true;
-      editJuridica.Visible := false;
-      editEstrangeira.Visible := false
+      gbDados.Visible := true;
+      gbDadosPJ.Visible := false;
+      lbCPFCNPJ.Caption := 'CPF:';
+      lbCPFCNPJ.Enabled := true;
+      editCPF.Enabled := true;
    end
    else if rgPessoaItemSelected = 1 then begin
       //ShowMessage('Item selecionado: ' + IntToStr(rgPessoaItemSelected));
-      editFisica.Visible := false;
-      editJuridica.Visible := true;
-      editEstrangeira.Visible := false
+      gbDados.Visible := false;
+      gbDadosPJ.Visible := true;
+      lbCPFCNPJ.Caption := 'CNPJ:';
+      lbCPFCNPJ.Enabled := true;
+      editCPF.Enabled := true;
+      lbCPFCNPJ.Visible := true;
+      editCPF.Visible := true;
    end
    else if rgPessoaItemSelected = 2 then begin
       //ShowMessage('Item selecionado: ' + IntToStr(rgPessoaItemSelected));
-      editFisica.Visible := false;
-      editJuridica.Visible := false;
-      editEstrangeira.Visible := true
+      gbDados.Visible := true;
+      gbDadosPJ.Visible := false;
+      lbCPFCNPJ.Enabled := false;
+      editCPF.Enabled := false;
+      editCPF.Text := '';
    end;
 end;
 

@@ -11,13 +11,17 @@ uses
 
 type
   TfrmPesquisa = class(TForm)
-    editFiltro: TEdit;
-    dbgPesquisa: TDBGrid;
     dsPesquisa: TDataSource;
     adqPesquisa: TADQuery;
+    gbDados: TGroupBox;
+    gbFiltro: TGroupBox;
+    dbgPesquisa: TDBGrid;
+    editFiltro: TEdit;
+    lbFiltro: TLabel;
     procedure FormShow(Sender: TObject);
     procedure editFiltroChange(Sender: TObject);
     procedure dbgPesquisaDblClick(Sender: TObject);
+    procedure dbgPesquisaTitleClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -42,12 +46,23 @@ begin
    frmClienteDadosGeral.FormShow(Sender);
 end;
 
+procedure TfrmPesquisa.dbgPesquisaTitleClick(Column: TColumn);
+begin
+   lbFiltro.Caption := Column.Title.Caption+': ';
+   editFiltro.Clear;
+   campoFiltro := Column.FieldName;
+   adqPesquisa.Filtered := false;
+   editFiltro.SetFocus; //apresentar o cursor no campo de pesquisa após clicar no título da coluna
+end;
+
 procedure TfrmPesquisa.editFiltroChange(Sender: TObject);
    var debug : string;
 begin
-   campoFiltro := dbgPesquisa.Columns[1].FieldName;
    adqPesquisa.FilterOptions := [foCaseInsensitive];
-   adqPesquisa.Filter := campoFiltro+' like '+QuotedStr('%'+editFiltro.Text+'%');
+   if campoFiltro <> '' then
+      adqPesquisa.Filter := campoFiltro+' like '+QuotedStr('%'+editFiltro.Text+'%')
+   else
+      adqPesquisa.Filter := 'ID like '+QuotedStr('%'+editFiltro.Text+'%');
 
    debug := adqPesquisa.Filter;
 
@@ -61,11 +76,11 @@ begin
    //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = '+QuotedStr('C')+' OR TIPO_CLI_FOR = '+QuotedStr('A'));
    adqPesquisa.SQL.Add('SELECT * FROM TBCLIFOR');
    adqPesquisa.Open;
+   //editFiltro.SetFocus;
 
-   {
-   lbFiltro.Caption := dbgDados.Columns[0].Title.caption+': ';
+   lbFiltro.Caption := dbgPesquisa.Columns[0].Title.caption+': ';
    editFiltro.Clear;
-   campoFiltro := dbgDados.Columns[0].FieldName; }
+   campoFiltro := dbgPesquisa.Columns[0].FieldName;
 
    adqPesquisa.Filtered := false;
 end;
