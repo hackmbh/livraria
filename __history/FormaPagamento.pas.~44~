@@ -31,6 +31,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,12 +41,73 @@ type
 
 var
   frmFormPagto: TfrmFormPagto;
+  idRef: Integer; // ID referencial
 
 implementation
 
 {$R *.dfm}
 
 uses DataModLivraria;
+
+//cadastra ou atualiza forma de pgto
+procedure TfrmFormPagto.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+   LabeledEdit2.Clear;
+   LabeledEdit1.Clear;
+end;
+
+procedure TfrmFormPagto.btnSalvarClick(Sender: TObject);
+begin
+  inherited;
+  if Length(trim(LabeledEdit1.Text)) < 5 then //verifica qtde de carcteres do campo descrição
+      ShowMessage('Descrição deve conter mais de 5 caracteres!')
+   else begin
+      ADQuery1.Close;
+      ADQuery1.SQL.Clear;
+      ADQuery1.SQL.Add('SELECT ID FROM TBFORM_PAGAMENTO WHERE ID = :ID');
+      ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
+      ADQuery1.Open;
+      if not ADQuery1.IsEmpty then begin
+         try
+            DataModuleLivraria.adConnectionLivro.StartTransaction;
+            ADQuery1.Close;
+            ADQuery1.SQL.Clear;
+            ADQuery1.SQL.Add('UPDATE TBFORM_PAGAMENTO SET DESCRICAO = :DESCRICAO WHERE ID = :ID');
+            ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
+            ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
+            ADQuery1.ExecSQL;
+            DataModuleLivraria.adConnectionLivro.Commit;
+         finally
+            if DataModuleLivraria.adConnectionLivro.InTransaction then
+               DataModuleLivraria.adConnectionLivro.Rollback
+            else begin
+               ShowMessage('Atualizado com sucesso!');
+               Button5Click(Sender);
+            end;
+         end;
+      end
+      else begin
+         try
+            DataModuleLivraria.adConnectionLivro.StartTransaction;
+            ADQuery1.Close;
+            ADQuery1.SQL.Clear;
+            ADQuery1.SQL.Add('INSERT INTO TBFORM_PAGAMENTO (DESCRICAO) VALUES (:DESCRICAO)');
+            ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
+            ADQuery1.ExecSQL;
+            DataModuleLivraria.adConnectionLivro.Commit;
+            Button5Click(Sender);
+         finally
+            if DataModuleLivraria.adConnectionLivro.InTransaction then
+               DataModuleLivraria.adConnectionLivro.Rollback
+            else begin
+               ShowMessage('Registro cadastrado com sucesso!');
+               Button5Click(Sender);
+            end;
+         end;
+      end;
+   end;
+end;
 
 //cadastra forma de pgto
 procedure TfrmFormPagto.Button1Click(Sender: TObject);
@@ -80,7 +143,7 @@ end;
 procedure TfrmFormPagto.Button3Click(Sender: TObject);
 begin
    if trim(LabeledEdit2.Text) = '' then //verifica se o ID está em branco
-      ShowMessage('O campo ID não deve estar em branco!')
+      ShowMessage('Informe o ID! Selecione o registro clicando no item da lista.')
    else begin
       ADQuery1.Close;
       ADQuery1.SQL.Clear;
@@ -93,7 +156,7 @@ begin
             ADQuery1.Close;
             ADQuery1.SQL.Clear;
             ADQuery1.SQL.Add('DELETE FROM TBFORM_PAGAMENTO WHERE ID = :ID');
-            ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
+            ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
             ADQuery1.ExecSQL;
             DataModuleLivraria.adConnectionLivro.Commit;
          finally
@@ -113,12 +176,12 @@ end;
 //atualiza forma de pgto
 procedure TfrmFormPagto.Button4Click(Sender: TObject);
 begin
-   if trim(LabeledEdit2.Text) = '' then //verifica se o ID está em branco
-      ShowMessage('Informe o ID da forma de pagamento que será atualizada!')
-   else if Length(trim(LabeledEdit1.Text)) < 5 then //verifica qtde de carcteres do campo descrição
+   //if trim(LabeledEdit2.Text) = '' then //verifica se o ID está em branco
+   //   ShowMessage('Informe o ID! Selecione o registro clicando no item da lista.')
+   //else if Length(trim(LabeledEdit1.Text)) < 5 then //verifica qtde de carcteres do campo descrição
+   //   ShowMessage('Descrição deve conter mais de 5 caracteres!')
+   if Length(trim(LabeledEdit1.Text)) < 5 then //verifica qtde de carcteres do campo descrição
       ShowMessage('Descrição deve conter mais de 5 caracteres!')
-   //else if trim(LabeledEdit2.Text) = '' then //verifica se o ID está em branco
-   //   ShowMessage('O campo ID não deve estar em branco!')
    else begin
       ADQuery1.Close;
       ADQuery1.SQL.Clear;
@@ -131,8 +194,8 @@ begin
             ADQuery1.Close;
             ADQuery1.SQL.Clear;
             ADQuery1.SQL.Add('UPDATE TBFORM_PAGAMENTO SET DESCRICAO = :DESCRICAO WHERE ID = :ID');
-            ADQuery1.ParamByName('DESCRICAO').AsString := LabeledEdit1.Text;
-            ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
+            ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
+            ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
             ADQuery1.ExecSQL;
             DataModuleLivraria.adConnectionLivro.Commit;
          finally
@@ -144,8 +207,25 @@ begin
             end;
          end;
       end
-      else
-         ShowMessage('Forma de Pagamento não encontrada com ID informado!');
+      else begin
+         try
+            DataModuleLivraria.adConnectionLivro.StartTransaction;
+            ADQuery1.Close;
+            ADQuery1.SQL.Clear;
+            ADQuery1.SQL.Add('INSERT INTO TBFORM_PAGAMENTO (DESCRICAO) VALUES (:DESCRICAO)');
+            ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
+            ADQuery1.ExecSQL;
+            DataModuleLivraria.adConnectionLivro.Commit;
+            Button5Click(Sender);
+         finally
+            if DataModuleLivraria.adConnectionLivro.InTransaction then
+               DataModuleLivraria.adConnectionLivro.Rollback
+            else begin
+               ShowMessage('Registro cadastrado com sucesso!');
+               Button5Click(Sender);
+            end;
+         end;
+      end;
    end;
 end;
 

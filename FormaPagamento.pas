@@ -58,6 +58,7 @@ begin
 end;
 
 procedure TfrmFormPagto.btnSalvarClick(Sender: TObject);
+   var FIsEmpty : boolean;
 begin
   inherited;
   if Length(trim(LabeledEdit1.Text)) < 5 then //verifica qtde de carcteres do campo descrição
@@ -68,42 +69,27 @@ begin
       ADQuery1.SQL.Add('SELECT ID FROM TBFORM_PAGAMENTO WHERE ID = :ID');
       ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
       ADQuery1.Open;
-      if not ADQuery1.IsEmpty then begin
-         try
-            DataModuleLivraria.adConnectionLivro.StartTransaction;
-            ADQuery1.Close;
-            ADQuery1.SQL.Clear;
+      FIsEmpty := ADQuery1.IsEmpty;
+      ADQuery1.Close;
+      ADQuery1.SQL.Clear;
+      try
+         DataModuleLivraria.adConnectionLivro.StartTransaction;
+         if not FIsEmpty then begin
             ADQuery1.SQL.Add('UPDATE TBFORM_PAGAMENTO SET DESCRICAO = :DESCRICAO WHERE ID = :ID');
-            ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
             ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
-            ADQuery1.ExecSQL;
-            DataModuleLivraria.adConnectionLivro.Commit;
-         finally
-            if DataModuleLivraria.adConnectionLivro.InTransaction then
-               DataModuleLivraria.adConnectionLivro.Rollback
-            else begin
-               ShowMessage('Atualizado com sucesso!');
-               Button5Click(Sender);
-            end;
-         end;
-      end
-      else begin
-         try
-            DataModuleLivraria.adConnectionLivro.StartTransaction;
-            ADQuery1.Close;
-            ADQuery1.SQL.Clear;
+         end
+         else begin
             ADQuery1.SQL.Add('INSERT INTO TBFORM_PAGAMENTO (DESCRICAO) VALUES (:DESCRICAO)');
-            ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
-            ADQuery1.ExecSQL;
-            DataModuleLivraria.adConnectionLivro.Commit;
+         end;
+         ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
+         ADQuery1.ExecSQL;
+         DataModuleLivraria.adConnectionLivro.Commit;
+      finally
+         if DataModuleLivraria.adConnectionLivro.InTransaction then
+            DataModuleLivraria.adConnectionLivro.Rollback
+         else begin
+            ShowMessage('Operação realizada com sucesso!');
             Button5Click(Sender);
-         finally
-            if DataModuleLivraria.adConnectionLivro.InTransaction then
-               DataModuleLivraria.adConnectionLivro.Rollback
-            else begin
-               ShowMessage('Registro cadastrado com sucesso!');
-               Button5Click(Sender);
-            end;
          end;
       end;
    end;
