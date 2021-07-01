@@ -318,6 +318,7 @@ object frmModeloLista: TfrmModeloLista
   Position = poMainFormCenter
   Visible = True
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object gbFiltro: TGroupBox

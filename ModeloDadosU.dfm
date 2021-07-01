@@ -318,6 +318,7 @@ object frmModeloDados: TfrmModeloDados
   Position = poMainFormCenter
   Visible = True
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object gbDados: TGroupBox
@@ -959,7 +960,7 @@ object frmModeloDados: TfrmModeloDados
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alRight
-      Caption = 'Salvar'
+      Caption = 'Confirma'
       Glyph.Data = {
         42240000424D4224000000000000420000002800000030000000300000000100
         20000300000000240000983A0000983A000000000000000000000000FF0000FF

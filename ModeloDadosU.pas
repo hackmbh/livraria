@@ -17,6 +17,7 @@ type
     dsModelo: TDataSource;
     procedure btnFecharClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -39,6 +40,14 @@ procedure TfrmModeloDados.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    Action := caFree;
    self := nil;
+end;
+
+procedure TfrmModeloDados.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+   if key=#13 then begin
+      SelectNext(ActiveControl as TWinControl,True,True);
+      key:=#0;
+   end;
 end;
 
 end.

@@ -25,6 +25,7 @@ type
     //procedure FormShow(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -65,6 +66,14 @@ end;
 procedure TfrmModeloLista.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    Action := caFree;
+end;
+
+procedure TfrmModeloLista.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+   if key=#13 then begin
+      SelectNext(ActiveControl as TWinControl,True,True);
+      key:=#0;
+   end;
 end;
 
 end.
