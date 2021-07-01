@@ -100,22 +100,22 @@ end;
 
 procedure TfrmInicial.Button1Click(Sender: TObject);
 begin
-frmCadLivro := TfrmCadLivro.Create(nil);
-try
-   frmCadLivro.ShowModal;
-finally
-   FreeAndNil(frmCadLivro);
-end;
+   frmCadLivro := TfrmCadLivro.Create(nil);
+   try
+      frmCadLivro.ShowModal;
+   finally
+      FreeAndNil(frmCadLivro);
+   end;
 end;
 
 procedure TfrmInicial.Button2Click(Sender: TObject);
 begin
-frmEditora := TfrmEditora.Create(nil);
-try
-   frmEditora.ShowModal;
-finally
-   FreeAndNil(frmEditora);
-end;
+   frmEditora := TfrmEditora.Create(nil);
+   try
+      frmEditora.ShowModal;
+   finally
+      FreeAndNil(frmEditora);
+   end;
 end;
 
 procedure TfrmInicial.Button3Click(Sender: TObject);
@@ -142,16 +142,16 @@ procedure TfrmInicial.Button5Click(Sender: TObject);
 begin
    frmFormPagto := TfrmFormPagto.Create(nil);
    try
-      frmFormPagto.ShowModal;
+      frmFormPagto.Show;
    finally
-      FreeAndNil(frmFormPagto);
+      //FreeAndNil(frmFormPagto);
    end;
 end;
 
 procedure TfrmInicial.FormCreate(Sender: TObject);
 begin
    try
-   DataModuleLivraria.ADConnection1.Connected := true;
+   DataModuleLivraria.adConnectionLivro.Connected := true;
       //ShowMessage('foi');
    except on E: Exception do
       ShowMessage('teste');

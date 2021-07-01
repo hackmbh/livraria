@@ -1,0 +1,12 @@
+inherited frmFormaPagamentoLista: TfrmFormaPagamentoLista
+  Caption = 'Formas de Pagamento'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited dsModelo: TDataSource
+    Top = 24
+  end
+  object adqFormPgto: TADQuery
+    Left = 552
+    Top = 24
+  end
+end

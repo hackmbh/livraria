@@ -70,7 +70,6 @@ type
     editNacionalidadeCod: TEdit;
     editNacionalidadeDesc: TEdit;
     Label1: TLabel;
-    editNaturalidadeCod: TEdit;
     editNaturalidadeDesc: TEdit;
     lbCNPJ: TLabel;
     lbNomePJ: TLabel;
@@ -103,6 +102,8 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure rgPessoaClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure editNacionalidadeCodKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -110,19 +111,18 @@ type
   end;
 
 var
-  frmClienteDadosGeral: TfrmClienteDadosGeral;
-  idRef: Integer; // ID referencial
-  cbSexoItem : string;
-  cbTipoClienteItem : string;
-  cbEstadoCivilItem : string;
-  rgPessoaItem : string;
-  cbIndicadorIEItem : integer;
-
+   frmClienteDadosGeral: TfrmClienteDadosGeral;
+   idRef: Integer; // ID referencial
+   cbSexoItem : string;
+   cbTipoClienteItem : string;
+   cbEstadoCivilItem : string;
+   rgPessoaItem : string;
+   cbIndicadorIEItem : integer;
 implementation
 
 {$R *.dfm}
 
-   uses DataModLivraria, clienteListaU, clientePesquisaU;
+   uses DataModLivraria, clienteListaU, clientePesquisaU, pesquisaCodDesc;
 
 procedure TfrmClienteDadosGeral.btnSalvarClick(Sender: TObject);
    var cbIndice, cbSimples, cbIsentoICMS : integer;
@@ -179,14 +179,14 @@ begin
             adqClientes.ParamByName('CPF_CNPJ').AsString := editCPF.Text;
             adqClientes.ParamByName('NOME').AsString := editNome.Text;
             adqClientes.ParamByName('DATA_NASC').AsString := editDataNasc.Text;
-            adqClientes.ParamByName('DATA_NASC').AsString := editDataNasc.Text;
-            adqClientes.ParamByName('RG_NUMERO').AsString := editRGNumero.Text;
-            adqClientes.ParamByName('RG_ORGAO').AsString := editRGOrgao.Text;
+            //adqClientes.ParamByName('DATA_NASC').AsString := editDataNasc.Text;
+            //adqClientes.ParamByName('RG_NUMERO').AsString := editRGNumero.Text;
+            //adqClientes.ParamByName('RG_ORGAO').AsString := editRGOrgao.Text;
             adqClientes.ParamByName('ESTADO_CIVIL').AsString := cbEstadoCivilItem;
             adqClientes.ParamByName('SEXO').AsString := cbSexo.Text;
-            adqClientes.ParamByName('FORMACAO').AsString := editFormacao.Text;
-            adqClientes.ParamByName('ID_NACIONALIDADE').AsInteger := StrToIntDef(editNacionalidadeCod.Text, 0);
-            adqClientes.ParamByName('ID_NATURALIDADE').AsInteger := StrToIntDef(editNaturalidadeCod.Text, 0);
+            //adqClientes.ParamByName('FORMACAO').AsString := editFormacao.Text;
+            //adqClientes.ParamByName('ID_NACIONALIDADE').AsInteger := StrToIntDef(editNacionalidadeCod.Text, 0);
+            //adqClientes.ParamByName('ID_NATURALIDADE').AsInteger := StrToIntDef(editNaturalidadeCod.Text, 0);
 
          end
          //dados e query específicos para pessoa JURÍDICA
@@ -375,6 +375,20 @@ begin
 
 end;
 
+procedure TfrmClienteDadosGeral.editNacionalidadeCodKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+   inherited;
+   {
+   if Key = VK_F9 then
+      callBackAction := 'nacionalidade';
+      //callBackAction := self.;
+      //frmPesquisa.
+      frmPCodDesc.ShowModal;
+
+   }
+end;
+
 procedure TfrmClienteDadosGeral.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
@@ -392,17 +406,36 @@ begin
    //frmClientesLista.dbgDados.DataSource.DataSet.Refresh;
    //frmClientesLista.adqClientes.DataSource.DataSet.Refresh;
    //frmClientesLista.Close();
-   Action := caFree;
+   //Action := caFree;
    idRef := 0;
-   self := nil;
+   //self := nil;
 end;
 
 procedure TfrmClienteDadosGeral.FormKeyDown(Sender: TObject; var Key: Word;
    Shift: TShiftState);
 begin
    inherited;
-   if Key = VK_F9 then
-      frmPesquisa.ShowModal;
+
+   if Key = VK_F9 then begin
+      callBackAction := Screen.ActiveControl.Name;
+      if callBackAction = 'editID' then begin
+         callBackActionSQL := 'SELECT ID, NOME, CPF_CNPJ FROM TBCLIFOR';
+         frmPCodDesc.Caption := 'Pesquisa por qualquer coisa';
+         //frmPCodDesc.dbgPesquisa.Columns[0].Width := 50;
+         //frmPCodDesc.dbgPesquisa.Columns[1].Width := 150;
+         //frmPCodDesc.dbgPesquisa.Columns[2].Width := 150;
+         frmPCodDesc.ShowModal;
+      end
+      else if callBackAction = 'editCidadeCod' then begin
+         callBackActionSQL := 'SELECT CODIGO, NOME FROM TBCIDADE';
+         frmPCodDesc.Caption := 'Pesquisa por qualquer coisa';
+         //frmPCodDesc.dbgPesquisa.Columns[0].Width := 50;
+         //frmPCodDesc.dbgPesquisa.Columns[1].Width := 150;
+         frmPCodDesc.ShowModal;
+      end
+      else
+         ShowMessage('Não existe pesquisa para este campo!');
+   end;
 end;
 
 procedure TfrmClienteDadosGeral.FormShow(Sender: TObject);

@@ -206,9 +206,8 @@ end;
 procedure TfrmClientesLista.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+   inherited;
    adqClientes.Close;
-   Action := caFree;
-   self := nil;
 end;
 
 

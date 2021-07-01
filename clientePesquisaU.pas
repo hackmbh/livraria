@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
   uADStanIntf, uADStanOption, uADStanParam, uADStanError, uADDatSManager,
   uADPhysIntf, uADDAptIntf, uADStanAsync, uADDAptManager, Data.DB,
-  uADCompDataSet, uADCompClient;
+  uADCompDataSet, uADCompClient, StrUtils;
 
 type
   TfrmPesquisa = class(TForm)
@@ -36,7 +36,7 @@ implementation
 
 {$R *.dfm}
 
-   uses DataModLivraria, clienteDadosGeralU;
+   uses DataModLivraria, clienteDadosGeralU, pesquisaCodDesc;
 
 procedure TfrmPesquisa.dbgPesquisaDblClick(Sender: TObject);
 begin
@@ -69,8 +69,45 @@ begin
    adqPesquisa.Filtered := true;
 end;
 
-procedure TfrmPesquisa.FormShow(Sender: TObject);
+procedure TfrmPesquisa.FormShow(Sender: TObject );
 begin
+
+//   if callBackAction = 'nacionalidade' then begin
+//      ShowMessage('Informar cidade')
+//   end;
+
+   {
+   case AnsiIndexStr(callBackAction, ['cidade', 'nacionalidade']) of
+     0 : ShowMessage('Informar cidade');
+     1 : ShowMessage('Informar nacionalidade');
+   end;
+}
+
+   {
+   case AnsiIndexStr(callBackAction, ['cidade', 'nacionalidade']) of
+      0: begin
+         ShowMessage('Informar cidade');
+         adqPesquisa.Close;
+         adqPesquisa.SQL.Clear;
+         //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = '+QuotedStr('C')+' OR TIPO_CLI_FOR = '+QuotedStr('A'));
+         adqPesquisa.SQL.Add('SELECT * FROM TBCIDADE');
+         adqPesquisa.Open;
+         //editFiltro.SetFocus;
+
+         lbFiltro.Caption := dbgPesquisa.Columns[0].Title.caption+': ';
+         editFiltro.Clear;
+         campoFiltro := dbgPesquisa.Columns[0].FieldName;
+
+         adqPesquisa.Filtered := false;
+      end;
+      1: begin
+         ShowMessage('Informar nacionalidade');
+      end;
+   end;
+
+   }
+
+      {
    adqPesquisa.Close;
    adqPesquisa.SQL.Clear;
    //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = '+QuotedStr('C')+' OR TIPO_CLI_FOR = '+QuotedStr('A'));
@@ -83,6 +120,8 @@ begin
    campoFiltro := dbgPesquisa.Columns[0].FieldName;
 
    adqPesquisa.Filtered := false;
+   }
+
 end;
 
 end.

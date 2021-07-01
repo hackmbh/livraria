@@ -1,0 +1,70 @@
+unit pesquisaCodDesc;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids,
+  uADStanIntf, uADStanOption, uADStanParam, uADStanError, uADDatSManager,
+  uADPhysIntf, uADDAptIntf, uADStanAsync, uADDAptManager, Data.DB,
+  uADCompDataSet, uADCompClient, Datasnap.DBClient, Datasnap.Provider;
+
+type
+  TfrmPCodDesc = class(TForm)
+    gbDados: TGroupBox;
+    gbFiltro: TGroupBox;
+    dbgPesquisa: TDBGrid;
+    editFiltro: TEdit;
+    lbFiltro: TLabel;
+    dsPesquisa: TDataSource;
+    adqPesquisaCodDesc: TADQuery;
+    ClientDataSet1: TClientDataSet;
+    DataSetProvider1: TDataSetProvider;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPCodDesc: TfrmPCodDesc;
+  campoFiltro: string;
+  callBackAction, callBackActionSQL:String;
+
+
+implementation
+
+{$R *.dfm}
+
+   uses DataModLivraria;
+
+procedure TfrmPCodDesc.FormShow(Sender: TObject);
+begin
+   {
+   if callBackAction = 'nacionalidade' then begin
+      ShowMessage('Informar cidade')
+   end;
+   }
+
+   if callBackAction <> '' then begin
+      ShowMessage(callBackAction)
+   end;
+
+   adqPesquisaCodDesc.Close;
+   adqPesquisaCodDesc.SQL.Clear;
+   //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = '+QuotedStr('C')+' OR TIPO_CLI_FOR = '+QuotedStr('A'));
+   adqPesquisaCodDesc.SQL.Add(callBackActionSQL);
+   ClientDataSet1.open();
+//   adqPesquisaCodDesc.Open;
+   //editFiltro.SetFocus;
+
+   lbFiltro.Caption := dbgPesquisa.Columns[0].Title.caption+': ';
+   editFiltro.Clear;
+   campoFiltro := dbgPesquisa.Columns[0].FieldName;
+
+   adqPesquisaCodDesc.Filtered := false;
+
+end;
+
+end.

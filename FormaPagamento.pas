@@ -9,10 +9,10 @@ uses
   uADStanPool, uADStanAsync, uADPhysManager, uADStanParam, uADDatSManager,
   uADDAptIntf, uADDAptManager, uADGUIxFormsWait, Data.DB, uADCompGUIx,
   uADPhysODBCBase, uADPhysASA, Vcl.Grids, Vcl.DBGrids, uADCompDataSet,
-  uADCompClient;
+  uADCompClient, ModeloDadosU, Vcl.Buttons;
 
 type
-  TfrmFormPagto = class(TForm)
+  TfrmFormPagto = class(TfrmModeloDados)
     LabeledEdit1: TLabeledEdit;
     Button1: TButton;
     Button2: TButton;
@@ -23,7 +23,6 @@ type
     DataSource1: TDataSource;
     Button5: TButton;
     LabeledEdit2: TLabeledEdit;
-    Edit1: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure LabeledEdit2Exit(Sender: TObject);
@@ -50,19 +49,24 @@ uses DataModLivraria;
 //cadastra forma de pgto
 procedure TfrmFormPagto.Button1Click(Sender: TObject);
 begin
-if LabeledEdit2.Text <> '' then begin
-   ShowMessage('O campo deve estar em branco!');
-   exit;
-end;
-if LabeledEdit1.Text <> '' then begin
-   ADQuery1.Close;
-   ADQuery1.SQL.Clear;
-   ADQuery1.SQL.Add('INSERT INTO TBFORM_PAGAMENTO (DESCRICAO) VALUES (:DESCRICAO)');
-   ADQuery1.ParamByName('DESCRICAO').AsString := LabeledEdit1.Text;
-   ADQuery1.ExecSQL;
-   Button5Click(Sender);
-end;
+   if Length(trim(LabeledEdit1.Text)) < 5 then
+      ShowMessage('Descrição deve conter mais de 5 caracteres!')
+   else begin
+      try
+         DataModuleLivraria.adConnectionLivro.StartTransaction;
+         ADQuery1.Close;
+         ADQuery1.SQL.Clear;
+         ADQuery1.SQL.Add('INSERT INTO TBFORM_PAGAMENTO (DESCRICAO) VALUES (:DESCRICAO)');
+         ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
+         ADQuery1.ExecSQL;
+         DataModuleLivraria.adConnectionLivro.Commit;
+         Button5Click(Sender);
+      finally
+         if DataModuleLivraria.adConnectionLivro.InTransaction then
+            DataModuleLivraria.adConnectionLivro.Rollback;
+      end;
 
+   end;
 end;
 
 //limpar campos forma de pgto
@@ -75,60 +79,72 @@ end;
 //deleta forma de pgto
 procedure TfrmFormPagto.Button3Click(Sender: TObject);
 begin
-if LabeledEdit2.Text <> '' then begin //verifica id e descrição se estão vazios
-   ADQuery1.Close;
-   ADQuery1.SQL.Clear;
-   ADQuery1.SQL.Add('SELECT ID FROM TBFORM_PAGAMENTO WHERE ID = :ID');
-   ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
-   ADQuery1.Open;
-   if not ADQuery1.IsEmpty then begin
-      try
-         ADQuery1.Close;
-         ADQuery1.SQL.Clear;
-         ADQuery1.SQL.Add('DELETE FROM TBFORM_PAGAMENTO WHERE ID = :ID');
-         ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
-         ADQuery1.ExecSQL;
-      finally
-         LabeledEdit2.Clear;
-         LabeledEdit1.Clear;
-         Button5Click(Sender);
-         ShowMessage('Deletado com sucesso!');
+   if trim(LabeledEdit2.Text) = '' then //verifica se o ID está em branco
+      ShowMessage('Informe o ID! Selecione o registro clicando no item da lista.')
+   else begin
+      ADQuery1.Close;
+      ADQuery1.SQL.Clear;
+      ADQuery1.SQL.Add('SELECT ID FROM TBFORM_PAGAMENTO WHERE ID = :ID');
+      ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
+      ADQuery1.Open;
+      if not ADQuery1.IsEmpty then begin
+         try
+            DataModuleLivraria.adConnectionLivro.StartTransaction;
+            ADQuery1.Close;
+            ADQuery1.SQL.Clear;
+            ADQuery1.SQL.Add('DELETE FROM TBFORM_PAGAMENTO WHERE ID = :ID');
+            ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
+            ADQuery1.ExecSQL;
+            DataModuleLivraria.adConnectionLivro.Commit;
+         finally
+            if DataModuleLivraria.adConnectionLivro.InTransaction then
+               DataModuleLivraria.adConnectionLivro.Rollback
+            else begin
+               ShowMessage('Deletado com sucesso!');
+               LabeledEdit2.Clear;
+               LabeledEdit1.Clear;
+               Button5Click(Sender);
+            end;
+         end;
       end;
    end;
-end;
 end;
 
 //atualiza forma de pgto
 procedure TfrmFormPagto.Button4Click(Sender: TObject);
 begin
-if LabeledEdit2.Text <> '' then begin //verifica id e descrição se estão vazios
-   ADQuery1.Close;
-   ADQuery1.SQL.Clear;
-   ADQuery1.SQL.Add('SELECT ID FROM TBFORM_PAGAMENTO WHERE ID = :ID');
-   ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
-   ADQuery1.Open;
-   if not ADQuery1.IsEmpty then begin
-      try
-         ADQuery1.Close;
-         ADQuery1.SQL.Clear;
-         ADQuery1.SQL.Add('UPDATE TBFORM_PAGAMENTO SET DESCRICAO = :DESCRICAO WHERE ID = :ID');
-         ADQuery1.ParamByName('DESCRICAO').AsString := LabeledEdit1.Text;
-         ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
-         ADQuery1.ExecSQL;
-      finally
-         ShowMessage('Atualizado com sucesso!');
-      end;
+   if trim(LabeledEdit2.Text) = '' then //verifica se o ID está em branco
+      ShowMessage('Informe o ID! Selecione o registro clicando no item da lista.')
+   else if Length(trim(LabeledEdit1.Text)) < 5 then //verifica qtde de carcteres do campo descrição
+      ShowMessage('Descrição deve conter mais de 5 caracteres!')
+   else begin
+      ADQuery1.Close;
+      ADQuery1.SQL.Clear;
+      ADQuery1.SQL.Add('SELECT ID FROM TBFORM_PAGAMENTO WHERE ID = :ID');
+      ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
+      ADQuery1.Open;
+      if not ADQuery1.IsEmpty then begin
+         try
+            DataModuleLivraria.adConnectionLivro.StartTransaction;
+            ADQuery1.Close;
+            ADQuery1.SQL.Clear;
+            ADQuery1.SQL.Add('UPDATE TBFORM_PAGAMENTO SET DESCRICAO = :DESCRICAO WHERE ID = :ID');
+            ADQuery1.ParamByName('DESCRICAO').AsString := trim(LabeledEdit1.Text);
+            ADQuery1.ParamByName('ID').AsInteger := StrToIntDef(LabeledEdit2.Text, 0);
+            ADQuery1.ExecSQL;
+            DataModuleLivraria.adConnectionLivro.Commit;
+         finally
+            if DataModuleLivraria.adConnectionLivro.InTransaction then
+               DataModuleLivraria.adConnectionLivro.Rollback
+            else begin
+               ShowMessage('Atualizado com sucesso!');
+               Button5Click(Sender);
+            end;
+         end;
+      end
+      else
+         ShowMessage('Forma de Pagamento não encontrada com ID informado!');
    end;
-end;
-
-if LabeledEdit1.Text <> '' then begin //insert / insere nova forma de pgto
-   ADQuery1.Close;
-   ADQuery1.SQL.Clear;
-   ADQuery1.SQL.Add('INSERT INTO TBFORM_PAGAMENTO (DESCRICAO) VALUES (:PARCELADO)');
-   ADQuery1.ParamByName('PARCELADO').AsString := LabeledEdit1.Text;
-   ADQuery1.ExecSQL;
-   Button5Click(Sender);
-end;
 end;
 
 //pesquisa por todas as formas de pgto
@@ -136,15 +152,15 @@ procedure TfrmFormPagto.Button5Click(Sender: TObject);
 begin
    ADQuery1.Close;
    ADQuery1.SQL.Clear;
-   ADQuery1.SQL.Add('SELECT * FROM TBFORM_PAGAMENTO');
+   ADQuery1.SQL.Add('SELECT ID, DESCRICAO FROM TBFORM_PAGAMENTO');
    ADQuery1.Open;
 end;
 
 //ao clicar em um item da DBgrid apresenta o ID e a Descrição nos campos edit
 procedure TfrmFormPagto.DBGrid1CellClick(Column: TColumn);
 begin
-LabeledEdit1.Text := DBGrid1.DataSource.DataSet.FieldByName('DESCRICAO').AsString;
-LabeledEdit2.Text := DBGrid1.DataSource.DataSet.FieldByName('ID').AsString;
+   LabeledEdit1.Text := DBGrid1.DataSource.DataSet.FieldByName('DESCRICAO').AsString;
+   LabeledEdit2.Text := DBGrid1.DataSource.DataSet.FieldByName('ID').AsString;
 end;
 
 //ao mostrar o formulário carrega os dados na DB grid
@@ -156,18 +172,18 @@ end;
 //pesquisa pela forma de pgto ao prencher o id e sair do campo
 procedure TfrmFormPagto.LabeledEdit2Exit(Sender: TObject);
 begin
-if LabeledEdit2.Text <> '' then begin
-   ADQuery1.Close;
-   ADQuery1.SQL.Clear;
-   ADQuery1.SQL.Add('SELECT DESCRICAO FROM TBFORM_PAGAMENTO WHERE ID = :ID');
-   ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
-   ADQuery1.Open;
-   if ADQuery1.IsEmpty then begin
-      ShowMessage('Não existe forma de pagamento com este código!');
-      exit;
+   if LabeledEdit2.Text <> '' then begin
+      ADQuery1.Close;
+      ADQuery1.SQL.Clear;
+      ADQuery1.SQL.Add('SELECT DESCRICAO FROM TBFORM_PAGAMENTO WHERE ID = :ID');
+      ADQuery1.ParamByName('ID').AsString := LabeledEdit2.Text;
+      ADQuery1.Open;
+      if ADQuery1.IsEmpty then begin
+         ShowMessage('Não existe forma de pagamento com este código!');
+         exit;
+      end;
+      LabeledEdit1.Text := ADQuery1.FieldByName('DESCRICAO').AsString;
    end;
-   LabeledEdit1.Text := ADQuery1.FieldByName('DESCRICAO').AsString;
-end;
 end;
 
 end.

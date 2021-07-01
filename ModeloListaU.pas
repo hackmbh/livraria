@@ -24,6 +24,7 @@ type
     //procedure FormClose(Sender: TObject; var Action: TCloseAction);
     //procedure FormShow(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -40,7 +41,7 @@ implementation
 //encerra o formulário
 procedure TfrmModeloLista.btnFecharClick(Sender: TObject);
 begin
-   self.Close;
+   Close;
 end;
 
 //fecha a conexão com a tabela
@@ -60,5 +61,10 @@ begin
    dsModelo.DataSet.Open; //esse método irá ativar e abrir a conexão toda vez que o formulário ficar visível
 end;
 }
+
+procedure TfrmModeloLista.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   Action := caFree;
+end;
 
 end.

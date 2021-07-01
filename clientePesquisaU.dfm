@@ -419,6 +419,8 @@ object frmPesquisa: TfrmPesquisa
       ParentFont = False
       TabOrder = 0
       OnChange = editFiltroChange
+      ExplicitLeft = 91
+      ExplicitTop = 14
     end
   end
   object dsPesquisa: TDataSource

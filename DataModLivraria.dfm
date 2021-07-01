@@ -2,7 +2,7 @@ object DataModuleLivraria: TDataModuleLivraria
   OldCreateOrder = False
   Height = 421
   Width = 694
-  object ADConnection1: TADConnection
+  object adConnectionLivro: TADConnection
     Params.Strings = (
       'Server=BDMARCELON'
       'Database=livraria'
@@ -10,15 +10,15 @@ object DataModuleLivraria: TDataModuleLivraria
       'Password=sql'
       'DriverID=ASA')
     Connected = True
-    Left = 32
-    Top = 48
+    Left = 72
+    Top = 40
   end
   object ADPhysASADriverLink1: TADPhysASADriverLink
-    Left = 128
+    Left = 200
     Top = 40
   end
   object ADGUIxWaitCursor1: TADGUIxWaitCursor
-    Left = 240
+    Left = 344
     Top = 40
   end
 end

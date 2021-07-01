@@ -10,7 +10,7 @@ uses
 
 type
   TDataModuleLivraria = class(TDataModule)
-    ADConnection1: TADConnection;
+    adConnectionLivro: TADConnection;
     ADPhysASADriverLink1: TADPhysASADriverLink;
     ADGUIxWaitCursor1: TADGUIxWaitCursor;
   private

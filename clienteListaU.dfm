@@ -98,7 +98,7 @@ inherited frmClientesLista: TfrmClientesLista
     DataSet = adqClientes
   end
   object adqClientes: TADQuery
-    Connection = DataModuleLivraria.ADConnection1
+    Connection = DataModuleLivraria.adConnectionLivro
     SQL.Strings = (
       'select * from tbclifor')
     Left = 536

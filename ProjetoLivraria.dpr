@@ -16,7 +16,8 @@ uses
   ModeloDadosU in 'ModeloDadosU.pas' {frmModeloDados},
   clienteModalDadosU in 'clienteModalDadosU.pas' {frmModalClienteDados},
   clienteDadosGeralU in 'clienteDadosGeralU.pas' {frmClienteDadosGeral},
-  clientePesquisaU in 'clientePesquisaU.pas' {frmPesquisa};
+  clientePesquisaU in 'clientePesquisaU.pas' {frmPesquisa},
+  pesquisaCodDesc in 'pesquisaCodDesc.pas' {frmPCodDesc};
 
 {$R *.res}
 
@@ -26,5 +27,6 @@ begin
   Application.CreateForm(TDataModuleLivraria, DataModuleLivraria);
   Application.CreateForm(TfrmInicial, frmInicial);
   Application.CreateForm(TfrmPesquisa, frmPesquisa);
+  Application.CreateForm(TfrmPCodDesc, frmPCodDesc);
   Application.Run;
 end.
