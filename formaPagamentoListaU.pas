@@ -16,6 +16,9 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnAdicionarClick(Sender: TObject);
     procedure dbgDadosDblClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure btnFiltroClick(Sender: TObject);
+    procedure dbgDadosTitleClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -52,33 +55,42 @@ begin
    //confirmação de exclusão
    if MessageBox(application.Handle, Pchar('Deseja excluir este registro?'), Pchar('Confirmar Exclusão'), MB_YESNO+MB_ICONQUESTION ) = ID_YES then begin
       iCod := dsModelo.DataSet.FieldByName('ID').AsInteger;
+      adqFormPgto.Filtered := false;
       adqFormPgto.Close;
       adqFormPgto.SQL.Clear;
       adqFormPgto.SQL.Add('SELECT ID FROM TBFORM_PAGAMENTO WHERE ID = :ID');
-      //adqClientes.ParamByName('ID').AsString := editID.Text;
-      //adqClientes.ParamByName('ID').AsInteger := dbgDados.DataSource.DataSet.FieldByName('ID').AsInteger;
       adqFormPgto.ParamByName('ID').AsInteger := iCod;
       adqFormPgto.Open;
       if not adqFormPgto.IsEmpty then begin
          try
+            DataModuleLivraria.adConnectionLivro.StartTransaction;
             adqFormPgto.Close;
             adqFormPgto.SQL.Clear;
             adqFormPgto.SQL.Add('DELETE FROM TBFORM_PAGAMENTO WHERE ID = :ID');
-            //adqClientes.ParamByName('ID').AsInteger := dbgDados.DataSource.DataSet.FieldByName('ID').AsInteger;
-            //adqClientes.ParamByName('ID').AsInteger := dbgDados.DataSource.DataSet.FieldByName('ID').AsString;
             adqFormPgto.ParamByName('ID').AsInteger := iCod;
             adqFormPgto.ExecSQL;
+            DataModuleLivraria.adConnectionLivro.Commit;
          finally
-            {.Clear;
-            editNome.Clear;
-            editSenha.Clear;
-            comboStatus.Clear;
-            btnListarClick(Sender);}
-            FormShow(Sender);
-            ShowMessage('Deletado com sucesso!');
+            if DataModuleLivraria.adConnectionLivro.InTransaction then
+               DataModuleLivraria.adConnectionLivro.Rollback
+            else begin
+               FormShow(Sender);
+               ShowMessage('Deletado com sucesso!');
+            end;
          end;
       end;
    end;
+end;
+
+procedure TfrmFormaPagamentoLista.btnFiltroClick(Sender: TObject);
+   var debug : string;
+begin
+   inherited;
+   adqFormPgto.FilterOptions := [foCaseInsensitive];
+   adqFormPgto.Filter := campoFiltro+' like '+QuotedStr('%'+editFiltro.Text+'%');
+   debug := adqFormPgto.Filter;
+   //ativa o filtro
+   adqFormPgto.Filtered := true;
 end;
 
 procedure TfrmFormaPagamentoLista.dbgDadosDblClick(Sender: TObject);
@@ -88,13 +100,28 @@ begin
    frmFormPagto := TfrmFormPagto.Create(Application);
 end;
 
+procedure TfrmFormaPagamentoLista.dbgDadosTitleClick(Column: TColumn);
+begin
+   inherited;
+   lbFiltro.Caption := Column.Title.Caption+': ';
+   editFiltro.Clear;
+   campoFiltro := Column.FieldName;
+   adqFormPgto.Filtered := false;
+   editFiltro.SetFocus; //apresentar o cursor no campo de pesquisa após clicar no título da coluna
+end;
+
+procedure TfrmFormaPagamentoLista.FormActivate(Sender: TObject);
+begin
+   inherited;
+   dsModelo.DataSet.Refresh;
+end;
+
 procedure TfrmFormaPagamentoLista.FormShow(Sender: TObject);
 begin
    inherited;
    adqFormPgto.Close;
    adqFormPgto.SQL.Clear;
-   //adqClientes.SQL.Add('SELECT * FROM TBCLIFOR WHERE TIPO_CLI_FOR = '+QuotedStr('C')+' OR TIPO_CLI_FOR = '+QuotedStr('A'));
-   adqFormPgto.SQL.Add('SELECT ID, DESCRICAO FROM TBFORM_PAGAMENTO');
+   adqFormPgto.SQL.Add('SELECT ID, DESCRICAO FROM TBFORM_PAGAMENTO ORDER BY ID');
    adqFormPgto.Open;
 
    lbFiltro.Caption := dbgDados.Columns[0].Title.caption+': ';

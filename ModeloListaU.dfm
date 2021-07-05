@@ -318,6 +318,7 @@ object frmModeloLista: TfrmModeloLista
   Position = poMainFormCenter
   Visible = True
   OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
@@ -740,7 +741,7 @@ object frmModeloLista: TfrmModeloLista
         0000000000000000000000000000000000000000000000000000000000000000
         000000000000}
       Layout = blGlyphTop
-      TabOrder = 0
+      TabOrder = 3
       OnClick = btnFecharClick
     end
     object btnExcluir: TBitBtn
@@ -1044,7 +1045,7 @@ object frmModeloLista: TfrmModeloLista
         0000000000000000000000000000000000000000000000000000000000000000
         000000000000}
       Layout = blGlyphTop
-      TabOrder = 1
+      TabOrder = 2
     end
     object btnAdicionar: TBitBtn
       AlignWithMargins = True
@@ -1347,7 +1348,7 @@ object frmModeloLista: TfrmModeloLista
         0000000000000000000000000000000000000000000000000000000000000000
         000000000000}
       Layout = blGlyphTop
-      TabOrder = 2
+      TabOrder = 1
     end
     object btnEditar: TBitBtn
       AlignWithMargins = True
@@ -1650,7 +1651,7 @@ object frmModeloLista: TfrmModeloLista
         0000000000000000000000000000000000000000000000000000000000000000
         000000000000}
       Layout = blGlyphTop
-      TabOrder = 3
+      TabOrder = 0
     end
   end
   object dsModelo: TDataSource

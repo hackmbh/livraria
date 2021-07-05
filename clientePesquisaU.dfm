@@ -429,7 +429,7 @@ object frmPesquisa: TfrmPesquisa
     Top = 32
   end
   object adqPesquisa: TADQuery
-    Connection = DataModuleLivraria.ADConnection1
+    Connection = DataModuleLivraria.adConnectionLivro
     SQL.Strings = (
       'select * from tbclifor')
     Left = 528

@@ -23,16 +23,16 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
   object lbClienteFornecedor: TLabel [1]
     Left = 353
     Top = 8
-    Width = 111
+    Width = 117
     Height = 13
-    Caption = 'Cliente ou Fornecedor?'
+    Caption = 'Cliente ou Fornecedor?*'
   end
   object lbStatus: TLabel [2]
     Left = 491
     Top = 8
-    Width = 31
+    Width = 37
     Height = 13
-    Caption = 'Status'
+    Caption = 'Status*'
   end
   object Label6: TLabel [3]
     Left = 141
@@ -59,23 +59,23 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     object lbFantasia: TLabel
       Left = 15
       Top = 61
-      Width = 41
+      Width = 71
       Height = 13
-      Caption = 'Fantasia'
+      Caption = 'Nome Fantasia'
     end
     object lbCNPJ: TLabel
       Left = 15
       Top = 15
-      Width = 25
+      Width = 97
       Height = 13
-      Caption = 'CNPJ'
+      Caption = 'CNPJ* (com pontos)'
     end
     object lbNomePJ: TLabel
       Left = 142
       Top = 15
-      Width = 27
+      Width = 66
       Height = 13
-      Caption = 'Nome'
+      Caption = 'Raz'#227'o Social*'
     end
     object lbInscEstadual: TLabel
       Left = 294
@@ -124,35 +124,36 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 80
       Width = 273
       Height = 21
-      TabOrder = 0
+      TabOrder = 3
     end
     object editCNPJ: TEdit
       Left = 15
       Top = 34
       Width = 121
       Height = 21
-      TabOrder = 1
+      MaxLength = 18
+      TabOrder = 0
     end
     object editRazaoSocial: TEdit
       Left = 142
       Top = 34
       Width = 475
       Height = 21
-      TabOrder = 2
+      TabOrder = 1
     end
     object editInscEst: TEdit
       Left = 294
       Top = 80
       Width = 121
       Height = 21
-      TabOrder = 3
+      TabOrder = 4
     end
     object cbIndicadorIE: TComboBox
       Left = 421
       Top = 80
       Width = 125
       Height = 21
-      TabOrder = 4
+      TabOrder = 5
       Items.Strings = (
         '1 - Contribuinte do ICMS'
         '2 - Contribuinte Isento de Inscri'#231#227'o'
@@ -163,28 +164,28 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 80
       Width = 33
       Height = 21
-      TabOrder = 5
+      TabOrder = 6
     end
     object editNatJurDesc: TEdit
       Left = 591
       Top = 80
       Width = 138
       Height = 21
-      TabOrder = 6
+      TabOrder = 7
     end
     object editContato: TEdit
       Left = 15
       Top = 122
       Width = 121
       Height = 21
-      TabOrder = 7
+      TabOrder = 8
     end
     object editCNAEDesc: TEdit
       Left = 208
       Top = 122
       Width = 247
       Height = 21
-      TabOrder = 8
+      TabOrder = 10
     end
     object editCNAECod: TEdit
       Left = 142
@@ -198,7 +199,7 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 34
       Width = 106
       Height = 21
-      TabOrder = 10
+      TabOrder = 2
     end
     object cboxEmpSimples: TCheckBox
       Left = 463
@@ -223,16 +224,16 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     Height = 155
     Align = alNone
     Caption = 'Dados espec'#237'ficos de Pessoa F'#237'sica'
-    TabOrder = 2
+    TabOrder = 4
     ExplicitTop = 54
     ExplicitWidth = 750
     ExplicitHeight = 155
     object Label3: TLabel
       Left = 141
       Top = 15
-      Width = 27
+      Width = 33
       Height = 13
-      Caption = 'Nome'
+      Caption = 'Nome*'
     end
     object Label4: TLabel
       Left = 14
@@ -284,11 +285,11 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Caption = 'Naturalidade'
     end
     object lbCPFCNPJ: TLabel
-      Left = 17
+      Left = 15
       Top = 15
-      Width = 48
+      Width = 91
       Height = 13
-      Caption = 'CPF/CNPJ'
+      Caption = 'CPF* (com pontos)'
     end
     object lbRGOrgao: TLabel
       Left = 268
@@ -302,14 +303,15 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 34
       Width = 588
       Height = 21
-      TabOrder = 0
+      TabOrder = 1
     end
     object editDataNasc: TEdit
       Left = 14
       Top = 78
       Width = 121
       Height = 21
-      TabOrder = 1
+      MaxLength = 10
+      TabOrder = 2
     end
     object cbEstadoCivil: TComboBox
       Left = 333
@@ -317,7 +319,7 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Width = 114
       Height = 21
       Style = csDropDownList
-      TabOrder = 2
+      TabOrder = 5
       Items.Strings = (
         'Solteiro(a)'
         'Casado(a)'
@@ -330,7 +332,7 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Width = 93
       Height = 21
       Style = csDropDownList
-      TabOrder = 3
+      TabOrder = 6
       Items.Strings = (
         'Feminino'
         'Masculino')
@@ -340,21 +342,21 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 78
       Width = 121
       Height = 21
-      TabOrder = 4
+      TabOrder = 3
     end
     object editFormacao: TEdit
       Left = 552
       Top = 78
       Width = 177
       Height = 21
-      TabOrder = 5
+      TabOrder = 7
     end
     object editNacionalidadeCod: TEdit
       Left = 14
       Top = 121
       Width = 33
       Height = 21
-      TabOrder = 6
+      TabOrder = 8
       OnKeyDown = editNacionalidadeCodKeyDown
     end
     object editNacionalidadeDesc: TEdit
@@ -362,34 +364,35 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 121
       Width = 121
       Height = 21
-      TabOrder = 7
+      TabOrder = 9
     end
-    object editNaturalidadeDesc: TEdit
+    object editNaturalidade: TEdit
       Left = 182
       Top = 121
       Width = 265
       Height = 21
-      TabOrder = 8
+      TabOrder = 10
     end
     object editCPF: TEdit
       Left = 14
       Top = 34
       Width = 121
       Height = 21
-      TabOrder = 9
+      MaxLength = 14
+      TabOrder = 0
     end
     object editRGOrgao: TEdit
       Left = 268
       Top = 78
       Width = 59
       Height = 21
-      TabOrder = 10
+      TabOrder = 4
     end
   end
   inherited pnControle: TPanel
     Top = 491
     Width = 749
-    TabOrder = 3
+    TabOrder = 10
     ExplicitTop = 491
     ExplicitWidth = 749
     inherited btnFechar: TBitBtn
@@ -411,27 +414,27 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     Top = 255
     Width = 750
     Height = 202
-    TabOrder = 4
+    TabOrder = 9
     object lbEndereco: TLabel
       Left = 94
       Top = 11
-      Width = 45
+      Width = 51
       Height = 13
-      Caption = 'Endere'#231'o'
+      Caption = 'Endere'#231'o*'
     end
     object lbTelefone: TLabel
       Left = 481
       Top = 11
-      Width = 42
+      Width = 48
       Height = 13
-      Caption = 'Telefone'
+      Caption = 'Telefone*'
     end
     object lbCEP: TLabel
       Left = 14
       Top = 11
-      Width = 19
+      Width = 25
       Height = 13
-      Caption = 'CEP'
+      Caption = 'CEP*'
     end
     object lbNumero: TLabel
       Left = 425
@@ -464,9 +467,9 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     object lbBairro: TLabel
       Left = 320
       Top = 104
-      Width = 28
+      Width = 34
       Height = 13
-      Caption = 'Bairro'
+      Caption = 'Bairro*'
     end
     object lbPais: TLabel
       Left = 569
@@ -501,98 +504,100 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 30
       Width = 121
       Height = 21
-      TabOrder = 0
+      MaxLength = 15
+      TabOrder = 3
     end
     object editCEP: TEdit
       Left = 14
       Top = 30
       Width = 74
       Height = 21
-      TabOrder = 1
+      MaxLength = 9
+      TabOrder = 0
     end
     object editEndereco: TEdit
       Left = 94
       Top = 30
       Width = 325
       Height = 21
-      TabOrder = 2
+      TabOrder = 1
     end
     object editNumero: TEdit
       Left = 425
       Top = 30
       Width = 50
       Height = 21
-      TabOrder = 3
+      TabOrder = 2
     end
     object editCidadeCod: TEdit
       Left = 320
       Top = 76
       Width = 33
       Height = 21
-      TabOrder = 4
+      TabOrder = 6
     end
     object editCidadeDesc: TEdit
       Left = 359
       Top = 76
       Width = 204
       Height = 21
-      TabOrder = 5
+      TabOrder = 7
     end
     object editEstadoCod: TEdit
       Left = 569
       Top = 76
       Width = 33
       Height = 21
-      TabOrder = 6
+      TabOrder = 8
     end
     object editEstadoDesc: TEdit
       Left = 608
       Top = 76
       Width = 121
       Height = 21
-      TabOrder = 7
+      TabOrder = 9
     end
     object editBairroCod: TEdit
       Left = 320
       Top = 123
       Width = 33
       Height = 21
-      TabOrder = 8
+      TabOrder = 10
     end
     object editBairroDesc: TEdit
       Left = 359
       Top = 123
       Width = 204
       Height = 21
-      TabOrder = 9
+      TabOrder = 11
     end
     object editPaisCod: TEdit
       Left = 569
       Top = 123
       Width = 33
       Height = 21
-      TabOrder = 10
+      TabOrder = 12
     end
     object editPaisDesc: TEdit
       Left = 608
       Top = 123
       Width = 121
       Height = 21
-      TabOrder = 11
+      TabOrder = 13
     end
     object editCelular: TEdit
       Left = 608
       Top = 30
       Width = 121
       Height = 21
-      TabOrder = 12
+      TabOrder = 4
     end
     object editEmail: TEdit
       Left = 268
       Top = 169
       Width = 461
       Height = 21
-      TabOrder = 13
+      TabOrder = 15
     end
     object editSite: TEdit
       Left = 15
@@ -606,7 +611,7 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
       Top = 76
       Width = 300
       Height = 68
-      TabOrder = 15
+      TabOrder = 5
     end
   end
   object editID: TEdit [9]
@@ -621,7 +626,7 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     Top = 8
     Width = 227
     Height = 40
-    Caption = 'Pessoa'
+    Caption = 'Pessoa*'
     Columns = 3
     ItemIndex = 0
     Items.Strings = (
@@ -637,7 +642,7 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     Width = 121
     Height = 21
     Style = csDropDownList
-    TabOrder = 6
+    TabOrder = 2
     Items.Strings = (
       'Cliente'
       'Fornecedor'
@@ -649,7 +654,7 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     Width = 145
     Height = 21
     Style = csDropDownList
-    TabOrder = 7
+    TabOrder = 3
     Items.Strings = (
       'Inativo'
       'Ativo')
@@ -659,21 +664,21 @@ inherited frmClienteDadosGeral: TfrmClienteDadosGeral
     Top = 228
     Width = 33
     Height = 21
-    TabOrder = 8
+    TabOrder = 7
   end
   object editProfissao: TEdit [14]
     Left = 180
     Top = 228
     Width = 158
     Height = 21
-    TabOrder = 9
+    TabOrder = 8
   end
   object editCadastroReg: TEdit [15]
     Left = 14
     Top = 228
     Width = 121
     Height = 21
-    TabOrder = 10
+    TabOrder = 6
   end
   inherited dsModelo: TDataSource
     DataSet = adqClientes

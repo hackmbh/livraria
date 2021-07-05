@@ -95,6 +95,7 @@ begin
    //confirmação de exclusão
    if MessageBox(application.Handle, Pchar('Deseja excluir este registro?'), Pchar('Confirmar Exclusão'), MB_YESNO+MB_ICONQUESTION ) = ID_YES then begin
       iCod := dsModelo.DataSet.FieldByName('ID').AsInteger;
+
       adqClientes.Close;
       adqClientes.SQL.Clear;
       adqClientes.SQL.Add('SELECT ID FROM TBCLIFOR WHERE ID = :ID');
@@ -169,7 +170,8 @@ begin
 
    //***chamando formulário CHILD
    //idRef := dbgDados.Fields[0].Value; //usando dados do DBGrid
-   idRef := dbgDados.DataSource.DataSet.FieldByName('ID').AsInteger; //usando dados do DataSource
+   //idRef := dbgDados.DataSource.DataSet.FieldByName('ID').AsInteger; //usando dados do DataSource
+   idRef := dbgDados.Columns.Items[dbgDados.selectedindex].Field.AsInteger;
    frmClienteDadosGeral := TfrmClienteDadosGeral.Create(Application);
    //frmClientesLista.FormState :=
 end;

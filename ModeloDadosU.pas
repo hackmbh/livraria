@@ -18,6 +18,7 @@ type
     procedure btnFecharClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,6 +41,11 @@ procedure TfrmModeloDados.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    Action := caFree;
    self := nil;
+end;
+
+procedure TfrmModeloDados.FormCreate(Sender: TObject);
+begin
+   KeyPreview:=true;
 end;
 
 procedure TfrmModeloDados.FormKeyPress(Sender: TObject; var Key: Char);

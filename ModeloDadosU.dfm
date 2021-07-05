@@ -318,6 +318,7 @@ object frmModeloDados: TfrmModeloDados
   Position = poMainFormCenter
   Visible = True
   OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
@@ -641,7 +642,7 @@ object frmModeloDados: TfrmModeloDados
         0000000000000000000000000000000000000000000000000000000000000000
         000000000000}
       Layout = blGlyphTop
-      TabOrder = 0
+      TabOrder = 2
       OnClick = btnFecharClick
     end
     object btnCancelar: TBitBtn
@@ -1254,7 +1255,7 @@ object frmModeloDados: TfrmModeloDados
         0000000000000000000000000000000000000000000000000000000000000000
         000000000000}
       Layout = blGlyphTop
-      TabOrder = 2
+      TabOrder = 0
     end
   end
   object dsModelo: TDataSource
