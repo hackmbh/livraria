@@ -1,0 +1,84 @@
+inherited frmFormPagto: TfrmFormPagto
+  Caption = 'Forma de Pagamento'
+  ClientHeight = 193
+  ClientWidth = 364
+  Position = poOwnerFormCenter
+  OnShow = FormShow
+  ExplicitWidth = 380
+  ExplicitHeight = 232
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited gbDados: TGroupBox
+    Width = 364
+    Height = 113
+    ExplicitTop = -2
+    ExplicitWidth = 374
+    ExplicitHeight = 265
+    object LabeledEdit1: TLabeledEdit
+      Left = 89
+      Top = 25
+      Width = 258
+      Height = 21
+      EditLabel.Width = 46
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Descri'#231#227'o'
+      TabOrder = 0
+    end
+    object LabeledEdit2: TLabeledEdit
+      Left = 8
+      Top = 25
+      Width = 75
+      Height = 21
+      EditLabel.Width = 11
+      EditLabel.Height = 13
+      EditLabel.Caption = 'ID'
+      Enabled = False
+      MaxLength = 4
+      NumbersOnly = True
+      TabOrder = 1
+      OnExit = LabeledEdit2Exit
+    end
+    object Button5: TButton
+      Left = 272
+      Top = 66
+      Width = 75
+      Height = 25
+      Caption = 'Listar'
+      TabOrder = 2
+      OnClick = Button5Click
+    end
+  end
+  inherited pnControle: TPanel
+    Top = 113
+    Width = 364
+    ExplicitTop = 265
+    ExplicitWidth = 374
+    inherited btnFechar: TBitBtn
+      Left = 279
+      ExplicitLeft = 289
+    end
+    inherited btnCancelar: TBitBtn
+      Left = 190
+      OnClick = btnCancelarClick
+      ExplicitLeft = 200
+    end
+    inherited btnSalvar: TBitBtn
+      Left = 106
+      OnClick = btnSalvarClick
+      ExplicitLeft = 116
+      ExplicitTop = 4
+    end
+  end
+  object ADQuery1: TADQuery
+    Connection = DataModuleLivraria.adConnectionLivro
+    SQL.Strings = (
+      '')
+    Left = 24
+    Top = 56
+  end
+  object DataSource1: TDataSource
+    DataSet = ADQuery1
+    Left = 88
+    Top = 56
+  end
+end
